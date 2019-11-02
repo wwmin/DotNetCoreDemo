@@ -11,3 +11,4 @@
 - t6:
 
 ### .net core 3.x webapi中Client的使用方式
+使用polly熔断重试方式解决调用失败的重试方案

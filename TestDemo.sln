@@ -3,31 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", ".\Client\WebClient\WebClient.csproj", "{52AC433C-1EB7-402A-A440-B422D50979F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", "Client\WebClient\WebClient.csproj", "{52AC433C-1EB7-402A-A440-B422D50979F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmitLog", ".\RabbitMQ\EmitLog\EmitLog.csproj", "{D246926A-8BF4-4753-9A6E-1F4E353759C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmitLog", "RabbitMQ\EmitLog\EmitLog.csproj", "{D246926A-8BF4-4753-9A6E-1F4E353759C7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmitLogDirect", ".\RabbitMQ\EmitLogDirect\EmitLogDirect.csproj", "{A4346CDE-C7D2-47CE-BB38-B603C26A3267}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmitLogDirect", "RabbitMQ\EmitLogDirect\EmitLogDirect.csproj", "{A4346CDE-C7D2-47CE-BB38-B603C26A3267}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmitLogTopic", ".\RabbitMQ\EmitLogTopic\EmitLogTopic.csproj", "{D47F2A73-2279-4555-ADE4-0DF52960E96A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmitLogTopic", "RabbitMQ\EmitLogTopic\EmitLogTopic.csproj", "{D47F2A73-2279-4555-ADE4-0DF52960E96A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewTask", ".\RabbitMQ\NewTask\NewTask.csproj", "{FF41893C-E61A-408E-B92F-0D86F6BEDC33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewTask", "RabbitMQ\NewTask\NewTask.csproj", "{FF41893C-E61A-408E-B92F-0D86F6BEDC33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Receive", ".\RabbitMQ\Receive\Receive.csproj", "{32B97D7C-CCC3-410F-A787-EEC214E69F5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Receive", "RabbitMQ\Receive\Receive.csproj", "{32B97D7C-CCC3-410F-A787-EEC214E69F5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReceiveLogs", ".\RabbitMQ\ReceiveLogs\ReceiveLogs.csproj", "{CCD45533-E4CE-4275-BCD5-B5EE64CAACED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReceiveLogs", "RabbitMQ\ReceiveLogs\ReceiveLogs.csproj", "{CCD45533-E4CE-4275-BCD5-B5EE64CAACED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReceiveLogsDirect", ".\RabbitMQ\ReceiveLogsDirect\ReceiveLogsDirect.csproj", "{64337ABC-E3E9-4310-8FA2-D7AB2BB9DEA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReceiveLogsDirect", "RabbitMQ\ReceiveLogsDirect\ReceiveLogsDirect.csproj", "{64337ABC-E3E9-4310-8FA2-D7AB2BB9DEA6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReceiveLogsTopic", ".\RabbitMQ\ReceiveLogsTopic\ReceiveLogsTopic.csproj", "{182CE1FB-F511-4F95-91F7-6901046D83ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReceiveLogsTopic", "RabbitMQ\ReceiveLogsTopic\ReceiveLogsTopic.csproj", "{182CE1FB-F511-4F95-91F7-6901046D83ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPCClient", ".\RabbitMQ\RPCClient\RPCClient.csproj", "{3625481D-82A5-4965-B0BC-650A7A12A9DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPCClient", "RabbitMQ\RPCClient\RPCClient.csproj", "{3625481D-82A5-4965-B0BC-650A7A12A9DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPCServer", ".\RabbitMQ\RPCServer\RPCServer.csproj", "{958DAED9-745A-40CA-AA9A-D5DFB2E73171}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPCServer", "RabbitMQ\RPCServer\RPCServer.csproj", "{958DAED9-745A-40CA-AA9A-D5DFB2E73171}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Send", ".\RabbitMQ\Send\Send.csproj", "{8240D2AB-273F-4AB9-9F29-445473E36D7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Send", "RabbitMQ\Send\Send.csproj", "{8240D2AB-273F-4AB9-9F29-445473E36D7F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker", ".\RabbitMQ\Worker\Worker.csproj", "{F884F0A7-A538-4217-9CBF-8386EEAE7179}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker", "RabbitMQ\Worker\Worker.csproj", "{F884F0A7-A538-4217-9CBF-8386EEAE7179}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RabbitMQ", "RabbitMQ", "{A4C7D91B-BC3B-46A9-A602-D0F36BD4EF1A}"
 EndProject
@@ -44,6 +44,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "t5", "t5", "{A44C926E-880B-4C01-8DB6-C07C5098A3CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "t6", "t6", "{3C2185D6-7499-4B32-916E-A3D93A74265F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{8C6A576D-B9E4-443B-9338-B881D582993C}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
