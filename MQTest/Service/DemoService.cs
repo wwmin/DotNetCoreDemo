@@ -14,7 +14,7 @@ namespace MQTest.Service
         {
             base.Queue.Add(new QueueInfo()
             {
-                ExchangeType = ExchangeType.Direct,
+                ExchangeType = ExchangeType.Fanout,
                 Queue = "hello",
                 RouterKey = "",
                 OnReceived = this.OnReceived
@@ -22,8 +22,7 @@ namespace MQTest.Service
         }
 
         public override string vHost { get { return "/"; } }
-
-        public override string Exchange => "";
+        public override string Exchange { get { return ""; } }
 
 
         /// <summary>

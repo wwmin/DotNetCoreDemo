@@ -13,10 +13,6 @@ namespace WebClient.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private IWeatherService weatherService;
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -29,15 +25,31 @@ namespace WebClient.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            string result = string.Empty;
+            WeatherInfo result = null;
             try
             {
                 result = await weatherService.GetData();
             }
             catch
             {
+                return BadRequest();
             }
-            return new JsonResult(new { result });
+            return new JsonResult(result);
+        }
+
+        [HttpGet("cityCode")]
+        public ActionResult GetCityCode()
+        {
+            string result = null;
+            try
+            {
+                result = weatherService.GetCityCode();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return new JsonResult(result);
         }
     }
 }

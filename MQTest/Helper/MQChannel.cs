@@ -33,7 +33,7 @@ namespace MQTest.Helper
             byte[] body = MQConnection.UTF8.GetBytes(content);
             IBasicProperties prop = new BasicProperties();
             prop.DeliveryMode = 1;
-            Consumer.Model.BasicPublish(this.ExchangeName, this.RouteKeyName, false, prop, body);
+            Consumer.Model.BasicPublish("", "hello", false, prop, body);
         }
 
         internal void Receive(object sender, BasicDeliverEventArgs e)

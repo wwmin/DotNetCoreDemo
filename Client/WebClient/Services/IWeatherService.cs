@@ -4,6 +4,8 @@ namespace WebClient.Services
 {
     public interface IWeatherService
     {
-        Task<string> GetData();
+        Task<WeatherInfo> GetData();
+
+        string GetCityCode();
     }
 }

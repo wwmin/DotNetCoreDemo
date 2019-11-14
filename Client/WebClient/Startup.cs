@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using WebClient.Services;
 using Polly.Extensions.Http;
 using Polly;
+using WebClient.MiddleWare;
 
 namespace WebClient
 {
@@ -51,7 +52,7 @@ namespace WebClient
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware<RequestMiddleware>();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
