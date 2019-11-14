@@ -22,7 +22,7 @@ namespace MQTest.Helper
         {
             get
             {
-                if (Connection == null)
+                if (connection == null)
                 {
                     ConnectionFactory factory = new ConnectionFactory
                     {

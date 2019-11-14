@@ -8,7 +8,14 @@ namespace Send
     {
         static void Main(string[] args)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var factory = new ConnectionFactory()
+            {
+                HostName = "localhost",
+                Password = "admin",
+                Port = 5672,
+                UserName = "admin",
+                AutomaticRecoveryEnabled = true
+            };
             using (var connection = factory.CreateConnection())//建立到代理服务器的连接
             {
                 using (var channel = connection.CreateModel())//获得信道
