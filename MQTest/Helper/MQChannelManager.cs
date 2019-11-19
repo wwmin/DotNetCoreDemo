@@ -49,7 +49,7 @@ namespace MQTest.Helper
         {
             type = string.IsNullOrEmpty(type) ? "default" : type;
             IModel model = this.MQConn.Connection.CreateModel();
-            model.ExchangeDeclare("", type, false, false, null);
+            model.ExchangeDeclare(exchange, type, false, false, null);
             model.BasicQos(0, 1, false);
             model.QueueDeclare(queue, false, false, false, arguments);
             model.QueueBind(queue, exchange, routeKey);

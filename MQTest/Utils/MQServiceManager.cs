@@ -7,7 +7,7 @@ namespace MQTest.Utils
 {
     public class MQServiceManager
     {
-        public int Timer_tick { get; set; } = 10 * 1000;
+        public int Timer_tick { get; set; } = 60 * 1000;
         private Timer timer = null;
 
         public Action<MessageLevel, string, Exception> OnAction = null;

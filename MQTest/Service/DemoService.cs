@@ -14,15 +14,15 @@ namespace MQTest.Service
         {
             base.Queue.Add(new QueueInfo()
             {
-                ExchangeType = ExchangeType.Fanout,
+                ExchangeType = ExchangeType.Direct,
                 Queue = "hello",
-                RouterKey = "",
+                RouterKey = "#",
                 OnReceived = this.OnReceived
             });
         }
 
         public override string vHost { get { return "/"; } }
-        public override string Exchange { get { return ""; } }
+        public override string Exchange { get { return "save.#"; } }
 
 
         /// <summary>
