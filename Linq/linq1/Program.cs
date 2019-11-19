@@ -12,11 +12,15 @@ namespace linq1
 
             Select1();
 
+            SelectMany();
+
             Join();
 
             GroupJoin();
 
             GroupBy();
+
+            Concat();
         }
 
         static void Select1()
@@ -44,6 +48,92 @@ namespace linq1
             }
             Console.ReadKey();
         }
+
+        static void SelectMany()
+        {
+            //使用集合初始化器初始化Teacher集合
+            List<Teacher> teachers = new List<Teacher> {
+               new Teacher("徐老师",
+               new List<Student>(){
+                 new Student("宋江",80),
+                new Student("卢俊义",95),
+                new Student("朱武",45)
+               }
+               ),
+                new Teacher("姜老师",
+               new List<Student>(){
+                 new Student("林冲",90),
+                new Student("花荣",85),
+                new Student("柴进",58)
+               }
+               ),
+               new Teacher("樊老师",
+               new List<Student>(){
+                 new Student("关胜",100),
+                new Student("阮小七",70),
+                new Student("时迁",30)
+               }
+               )
+            };
+
+            //查询score小于60的学生
+            //方法1: 循环遍历,会有性能损失
+            foreach (Teacher t in teachers)
+            {
+                foreach (Student s in t.Students)
+                {
+                    if (s.Score < 60)
+                    {
+                        Console.WriteLine("姓名:" + s.Name + ",成绩:" + s.Score);
+                    }
+                }
+            }
+            //查询表达式
+            //方法2：使用SelectMany  延迟加载：在不需要数据的时候，就不执行调用数据，能减轻程序和数据库的交互，可以提供程序的性能，执行循环的时候才去访问数据库取数据            
+            //直接返回学生的数据
+            var query = from t in teachers
+                        from s in t.Students
+                        where s.Score < 60
+                        select s;
+            foreach (var item in query)
+            {
+                Console.WriteLine("姓名:" + item.Name + ",成绩:" + item.Score);
+            }
+
+            //同时返回老师的数据
+            var query1 = from t in teachers
+                         from s in t.Students
+                         where s.Score < 60
+                         select new
+                         {
+                             t,
+                             teacherName = t.Name,
+                             student = t.Students.Where(p => p.Score < 60).ToList()
+                         };
+            foreach (var item in query1)
+            {
+                Console.WriteLine("老师姓名:" + item.teacherName + ",学生姓名:" + item.student.FirstOrDefault().Name + ",成绩:" + item.student.FirstOrDefault().Score);
+            }
+
+            // 使用匿名类 返回老师和学生的数据
+            var query2 = from t in teachers
+                         from s in t.Students
+                         where s.Score < 60
+                         select new { teacherName = t.Name, studentName = s.Name, studentScore = s.Score };
+            foreach (var item in query2)
+            {
+                Console.WriteLine("老师姓名:" + item.teacherName + ",学生姓名:" + item.studentName + ",成绩:" + item.studentScore);
+            }
+
+            //使用查询方法
+            var query3 = teachers.SelectMany(p => p.Students.Where(t => t.Score < 60).ToList());
+            foreach (var item in query3)
+            {
+                Console.WriteLine("姓名:" + item.Name + ",成绩:" + item.Score);
+            }
+            Console.ReadKey();
+        }
+
 
         static void Join()
         {
@@ -233,7 +323,7 @@ namespace linq1
             }
             // 方法语法
             var listFun1 = listProduct.GroupBy(p => new { p.CategoryId, p.Price }).Select(g => new { key = g.Key, ListGroup = g.ToList() });
-    
+
             Console.WriteLine("方法语法输出：");
             foreach (var item in listFun1)
             {
@@ -246,10 +336,51 @@ namespace linq1
             var ll = listProduct.GroupBy(p => p.CategoryId).Select(p => p.ToList()).ToList();//此时ll的类型为List<List<Product>> 这在返回结果中的结构很有用
             Console.ReadKey();
         }
+
+        
+        static void Concat()
+        {
+            // 初始化数据
+            List<Category> listCategory = new List<Category>()
+            {
+              new Category(){ Id=1,CategoryName="计算机",CreateTime=DateTime.Now.AddYears(-1)},
+              new Category(){ Id=2,CategoryName="文学",CreateTime=DateTime.Now.AddYears(-2)},
+              new Category(){ Id=3,CategoryName="高校教材",CreateTime=DateTime.Now.AddMonths(-34)},
+              new Category(){ Id=4,CategoryName="心理学",CreateTime=DateTime.Now.AddMonths(-34)}
+            };
+            List<Product> listProduct = new List<Product>()
+            {
+               new Product(){Id=1,CategoryId=1, Name="C#高级编程第10版", Price=100.67,CreateTime=DateTime.Now},
+               new Product(){Id=2,CategoryId=1, Name="Redis开发和运维", Price=69.9,CreateTime=DateTime.Now.AddDays(-19)},
+               new Product(){Id=3,CategoryId=2, Name="活着", Price=57,CreateTime=DateTime.Now.AddMonths(-3)},
+               new Product(){Id=4,CategoryId=3, Name="高等数学", Price=97,CreateTime=DateTime.Now.AddMonths(-1)},
+               new Product(){Id=5,CategoryId=6, Name="国家宝藏", Price=52.8,CreateTime=DateTime.Now.AddMonths(-1)}
+            };
+
+            // 查询表达式
+            var newList = (from p in listProduct
+                           select p.Name).Concat(from c in listCategory select c.CategoryName);
+            Console.WriteLine("查询表达式输出:");
+            foreach (var item in newList)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("*************************");
+
+            // 方法语法
+            var newListFun = listProduct.Select(p => p.Name).Concat(listCategory.Select(c => c.CategoryName));
+            Console.WriteLine("方法语法输出:");
+            foreach (var item in newListFun)
+            {
+                Console.WriteLine(item);
+            }
+
+            Console.ReadKey();
+        }
     }
 
 
-    #region select
+    #region Employee
     class Employee
     {
         public Guid Id { get; set; }
@@ -259,7 +390,7 @@ namespace linq1
     }
     #endregion
 
-    #region groupJoin
+    #region Category Product
     class Category
     {
         public int Id { get; set; }
@@ -277,5 +408,27 @@ namespace linq1
     }
     #endregion
 
+    #region Teacher Student
+    class Teacher
+    {
+        public string Name { get; set; }
+        public List<Student> Students { get; set; }
+        public Teacher(string name, List<Student> students)
+        {
+            this.Name = name;
+            this.Students = students;
+        }
+    }
 
+    class Student
+    {
+        public string Name { get; set; }
+        public int Score { get; set; }
+        public Student(string name, int score)
+        {
+            this.Name = name;
+            this.Score = score;
+        }
+    }
+    #endregion
 }
