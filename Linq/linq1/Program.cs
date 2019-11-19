@@ -24,6 +24,10 @@ namespace linq1
             Concat();
 
             Convert();
+
+            AllAnyContain();
+
+            TakeSkip();
         }
 
         static void Select1()
@@ -455,6 +459,77 @@ namespace linq1
                 Console.WriteLine(item);
             }
         }
+
+        static void AllAnyContain()
+        {
+            //ALL
+            string[] source1 = new string[] { "A", "B", "C", "D", "E", "F" };
+            string[] source2 = new string[] { "A", "A", "A", "A", "A", "A" };
+            Console.WriteLine(source1.All(w => w == "A")); //输出"False"
+            Console.WriteLine(source2.All(w => w == "A")); //输出 "True"
+            Console.ReadKey();
+            //Any
+            Console.WriteLine(source1.Any(w => w == "A"));//输出True
+            Console.WriteLine(source2.Any(w => w == "G"));//输出False
+            //Contain
+            Console.WriteLine(source1.ToList().Contains("A"));//输出 True
+            Console.WriteLine(source1.ToList().Contains("G"));//输出 False
+                                                              //Contain 重载IEqualityComparer<TSource>接口
+            var comparer = source1.Contains("F", new EqualityComparerEquals());
+            Console.WriteLine(comparer);//输出 True
+            Console.ReadKey();
+        }
+
+        static void TakeSkip()
+        {
+            //Take
+            int[] source = new int[] { 86, 2, 77, 94, 100, 65, 5, 22, 70, 55, 81, 66, 45 };
+            // 返回6个连续的数据
+            var q = source.Take(6);
+            foreach (var item in q)
+            {
+                Console.WriteLine(item);
+            }
+            //TakeWhile
+            //返回集合中元素值小于100的序列
+            var qq = source.TakeWhile(i => i < 100);
+            foreach (var item in qq)
+            {
+                Console.WriteLine(item);
+            }
+
+            //Skip
+            var sq = source.Skip(5);
+            foreach (var item in sq)
+            {
+                Console.WriteLine(item);
+            }
+            //SkipWhile
+            var sqq = source.SkipWhile(i => i < 100);
+            foreach (var item in sqq)
+            {
+                Console.WriteLine(item);
+            }
+            //使用Take和Skip实现分页
+            //每页显示的条数
+            int PageSize = 3;
+            //页数从0开始
+            int PageNum = 0;
+            while (PageNum * PageSize < source.Length)
+            {
+                // 分页
+                var query = source.Skip(PageNum * PageSize).Take(PageSize);
+                Console.WriteLine($"输出第{PageNum + 1}页记录");
+                foreach (var item in query)
+                {
+                    Console.WriteLine(item);
+                }
+                PageNum++;
+            }
+
+
+            Console.ReadKey();
+        }
     }
 
 
@@ -506,6 +581,20 @@ namespace linq1
         {
             this.Name = name;
             this.Score = score;
+        }
+    }
+    #endregion
+
+    #region Container  IEqualityComparer<TSource>
+    public class EqualityComparerEquals : IEqualityComparer<string>
+    {
+        public bool Equals(string x, string y)
+        {
+            return x == y;
+        }
+        public int GetHashCode(string obj)
+        {
+            return obj.ToString().GetHashCode();
         }
     }
     #endregion
