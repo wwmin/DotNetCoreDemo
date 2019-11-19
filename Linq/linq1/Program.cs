@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace linq1
@@ -21,6 +22,8 @@ namespace linq1
             GroupBy();
 
             Concat();
+
+            Convert();
         }
 
         static void Select1()
@@ -337,7 +340,7 @@ namespace linq1
             Console.ReadKey();
         }
 
-        
+
         static void Concat()
         {
             // 初始化数据
@@ -376,6 +379,81 @@ namespace linq1
             }
 
             Console.ReadKey();
+        }
+
+        static void Convert()
+        {
+            //这些转换操作符将集合转换成数组：
+            //IEnumerable、IList、IDictionary等。
+            //转换操作符是用来实现将输入对象的类型转变为序列的功能。
+            //名称以"As"开头的转换方法可更改源集合的静态类型
+            //但不枚举（延迟加载）此源集合。
+            //名称以"To"开头的方法可枚举（即时加载）源集合
+            //并将项放入相应的集合类型。
+            //一、AsEnumerable操作符
+            //DataTable dt = new DataTable();
+            //将dt先使用AsEnumerable()操作符进行转换,然后在调用linq to object的where方法
+            //var list = dt.AsEnumerable().Where(p => p.Name.length > 0);
+            //二. ToArray
+            List<int> listInt = new List<int>();
+            listInt.Add(1);
+            listInt.Add(2);
+            listInt.Add(3);
+            int[] intArray = listInt.ToArray();
+            //三. ToDictionary
+            List<Category> listCategory = new List<Category>()
+                {
+        new Category(){ Id=1,CategoryName="计算机",CreateTime=DateTime.Now.AddYears(-1)},
+        new Category(){ Id=2,CategoryName="文学",CreateTime=DateTime.Now.AddYears(-2)},
+        new Category(){ Id=3,CategoryName="高校教材",CreateTime=DateTime.Now.AddMonths(-34)},
+        new Category(){ Id=4,CategoryName="心理学",CreateTime=DateTime.Now.AddMonths(-34)}
+};
+            var dict = listCategory.ToDictionary(c => c.Id, c => c.CategoryName);
+            foreach (var item in dict)
+            {
+                Console.WriteLine($"key:{item.Key},value:{item.Value}");
+            }
+            var dict1 = listCategory.ToDictionary(c => c.Id);
+            foreach (var item in dict1)
+            {
+                Console.WriteLine($"key:{item.Key},Id:{dict1[item.Key].Id},CategoryName:{dict1[item.Key].CategoryName},CreateTime:{dict1[item.Key].CreateTime}");
+            }
+
+            //四、ToList操作符
+            List<int> intlist = intArray.ToList();
+            //五. ToLookUp操作符
+            //ToLookUp操作符将创建一个LookUp<TKey, TElement> 对象，
+            //这是一个one - to - many的集合，一个key可以对应多个value值
+            //ToLookUp和GroupBy操作很相似，只不过GroupBy是延迟加载的，ToLookUp是立即加载的。
+            List<Product> listProduct = new List<Product>()
+{
+      new Product(){Id=1,CategoryId=1, Name="C#高级编程第10版", Price=100.67,CreateTime=DateTime.Now},
+      new Product(){Id=2,CategoryId=1, Name="Redis开发和运维", Price=69.9,CreateTime=DateTime.Now.AddDays(-19)},
+      new Product(){Id=3,CategoryId=2, Name="活着", Price=57,CreateTime=DateTime.Now.AddMonths(-3)},
+      new Product(){Id=4,CategoryId=3, Name="高等数学", Price=97,CreateTime=DateTime.Now.AddMonths(-1)},
+      new Product(){Id=5,CategoryId=6, Name="国家宝藏", Price=52.8,CreateTime=DateTime.Now.AddMonths(-1)}
+};
+            var list1 = listProduct.ToLookup(p => p.CategoryId, p => p.Name);
+            foreach (var item in list1)
+            {
+                Console.WriteLine($"key:{item.Key}");
+                foreach (var p in item)
+                {
+                    Console.WriteLine($"value:{p}");
+                }
+            }
+
+            //六. Cast操作符
+            //Cast操作符用于将一个类型为IEnumerable的集合对象转换为IEnumerable<T> 类型的集合对象。
+            //也就是非泛型集合转成泛型集合，因为在Linq to OBJECT中，
+            //绝大部分操作符都是针对IEnumerable<T> 类型进行的扩展方法。
+            //因此对非泛型集合并不适用。
+            //非泛型转换成泛型
+            var li = intArray.Cast<int>();
+            foreach (var item in li)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 
