@@ -1,9 +1,8 @@
-﻿using MQTest.Helper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MQTest.Utils
+namespace MQUtil
 {
     public abstract class MQServiceBase : IService
     {
