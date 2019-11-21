@@ -1,4 +1,5 @@
 ﻿using EasyNetQ;
+using EasyNetqMyConventions;
 using Messages;
 using System;
 

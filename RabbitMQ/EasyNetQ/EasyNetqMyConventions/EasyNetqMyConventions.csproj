@@ -8,4 +8,8 @@
     <PackageReference Include="EasyNetQ" Version="3.7.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Messages\Messages.csproj" />
+  </ItemGroup>
+
 </Project>
