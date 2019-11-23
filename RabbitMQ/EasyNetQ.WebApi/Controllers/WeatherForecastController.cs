@@ -27,6 +27,7 @@ namespace EasyNetQ.WebApi.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
+            _logger.LogInformation(rng.Next().ToString());
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

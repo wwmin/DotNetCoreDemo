@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyNetQ.WebApi.MQModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace EasyNetQ.WebApi.Controllers
 {
@@ -12,15 +13,18 @@ namespace EasyNetQ.WebApi.Controllers
     [ApiController]
     public class MQController : ControllerBase
     {
+        private readonly ILogger<MQController> _log;
         private readonly IBus _bus;
-        public MQController(IBus bus)
+        public MQController(ILogger<MQController> log, IBus bus)
         {
+            _log = log;
             _bus = bus;
         }
 
         [HttpPost("order")]
         public async Task Post([FromBody]OrderMessage message)
         {
+            _log.LogInformation(message.text + "," + message.id);
             await _bus.PublishAsync(message);
         }
     }

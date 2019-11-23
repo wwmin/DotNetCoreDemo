@@ -1,5 +1,7 @@
 ﻿using EasyNetQ.AutoSubscribe;
+using EasyNetQ.WebApi.Extension;
 using EasyNetQ.WebApi.MQModels;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,13 @@ namespace EasyNetQ.WebApi.Services
         [AutoSubscriberConsumer(SubscriptionId = "TestOrderService")]
         public Task ConsumeAsync(OrderMessage message)
         {
-            Console.WriteLine("主线程中执行:" + message);
+
             return Task.Run(() =>
             {
-                Console.WriteLine(message);                
+                string msg = "主线程中执行: " + "text: " + message.text + ",id: " + message.id;
+                
+                
+                Console.WriteLine(msg);
             });
         }
     }
