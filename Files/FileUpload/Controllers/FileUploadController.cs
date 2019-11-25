@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FileUpload.Infrastructures;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +21,14 @@ namespace FileUpload.Controllers
         public FileUploadController(IWebHostEnvironment env)
         {
             _env = env;
-            _targetFilePath = _env.ContentRootPath+@"\files";
+            _targetFilePath = _env.ContentRootPath+@"\files\";
             if(!Directory.Exists(_targetFilePath))
             {
                 Directory.CreateDirectory(_targetFilePath);
             }
         }
 
+        #region 文件上传的两种方式 1.流 2.缓存
         /// <summary>
         /// 流式文件上传
         /// </summary>
@@ -128,5 +130,63 @@ namespace FileUpload.Controllers
             }
             return writeCount;
         }
+        #endregion
+
+        #region 其他方式
+        /// <summary>
+        /// 多文件上传的
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("file/multi")]
+        public async Task<IActionResult> UploadWithFiles()
+        {
+            try
+            {
+                var files = Request.Form.Files;
+                long size = files.Sum(f => f.Length);
+                //size >100MB refuse upload
+                if (size > 104857600)
+                {
+                    return BadRequest("文件过大");
+                }
+                List<string> filePathResultList = new List<string>();
+                foreach (var file in files)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
+                    fileName = Guid.NewGuid() + "." + fileName.Split(".")[1];
+                    string fileFullName = _targetFilePath + fileName;
+                    using (FileStream fs=System.IO.File.Create(fileFullName))
+                    {
+                        await file.CopyToAsync(fs);//一次性写入,有可能会导致内存不足
+                        fs.Flush();
+                    }
+                    filePathResultList.Add(fileName);
+                }
+                return Ok(filePathResultList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        #endregion
+
+        #region 使用封装的FormFile上传
+        /// <summary>
+        /// 使用自定义的UserFile上传
+        /// </summary>
+        /// <param name="file">UserFile</param>
+        /// <returns></returns>
+        [HttpPost("file")]
+        public async Task<IActionResult> UseFormAttributeUpload([FromForm] UserFile file)
+        {
+            if (file == null || !file.IsValid)
+                return BadRequest("不允许上传的文件类型");
+            string newFile = string.Empty;
+            if (file != null)
+                newFile = await file.SaveAs(_targetFilePath);
+            return Ok(newFile);
+        }
+        #endregion
     }
 }
