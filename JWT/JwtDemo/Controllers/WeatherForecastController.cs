@@ -26,7 +26,7 @@ namespace JwtDemo.Controllers
         {
             _logger = logger;
         }
-        [Authorize]
+        [Authorize(Policy ="adminOnly")]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
@@ -41,7 +41,7 @@ namespace JwtDemo.Controllers
             .ToArray();
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpGet("user")]
         public IActionResult getUser()
         {
