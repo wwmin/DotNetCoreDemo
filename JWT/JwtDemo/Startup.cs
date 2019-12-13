@@ -45,6 +45,10 @@ namespace JwtDemo
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SecureKeySecureKeySecureKeySecureKeySecureKeySecureKey"))
                 };
             });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("adminOnly", policy => policy.RequireClaim("adminOnly"));
+            });
             services.AddControllers();
         }
 

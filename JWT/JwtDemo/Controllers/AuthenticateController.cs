@@ -24,8 +24,11 @@ namespace JwtDemo.Controllers
             //验证通过 否则 返回Unauthorized
             //创建claim
             var authClaims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sub,input.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.NameId,input.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Name,input.UserName),
+                new Claim(ClaimTypes.Role,"admin"),
+                new Claim("adminOnly","true")
             };
             IdentityModelEventSource.ShowPII = true;
             //签名秘钥 可以放到json文件中

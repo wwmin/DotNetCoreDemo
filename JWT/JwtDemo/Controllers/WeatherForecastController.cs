@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace JwtDemo.Controllers
 {
-  
+
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -24,10 +26,11 @@ namespace JwtDemo.Controllers
         {
             _logger = logger;
         }
-        [Authorize]
+        [Authorize(Policy ="adminOnly")]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            var user = HttpContext.User;
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
@@ -36,6 +39,15 @@ namespace JwtDemo.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("user")]
+        public IActionResult getUser()
+        {
+            var user = HttpContext.User;
+            var name = user.Claims.FirstOrDefault(p => p.Type == ClaimTypes.Name);
+            return Ok(name?.Value);
         }
     }
 }
