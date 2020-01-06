@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FreeSql;
+using freeSqlWeb1.Configures;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,14 +11,34 @@ namespace freeSqlWeb1
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
+
             Configuration = configuration;
             Fsql = new FreeSqlBuilder()
                 .UseConnectionString(DataType.MySql, Configuration.GetConnectionString("DatabaseMySql"))
                 .UseAutoSyncStructure(true)
                 .Build();
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning)
+                    .AddConsole()
+                    .AddEventLog();
+            });
+            ILogger logger = loggerFactory.CreateLogger<Program>();
+            Fsql.Aop.CurdBefore = (s, e) =>
+            {
+                logger.LogInformation(e.Sql);
+            };
+            Fsql.Aop.CurdAfter = (s, e) =>
+            {
+                //logger.LogInformation(s.ToString());
+            };
         }
+
 
         public IFreeSql Fsql { get; }
 
@@ -32,6 +47,9 @@ namespace freeSqlWeb1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region use swagger
+            services.UseSwagger();
+            #endregion
             services.AddSingleton<IFreeSql>(Fsql);
             services.AddControllers();
         }
@@ -44,7 +62,9 @@ namespace freeSqlWeb1
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+
+            app.UseSwaggerUI();
 
             app.UseRouting();
 

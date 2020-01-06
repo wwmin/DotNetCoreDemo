@@ -3,6 +3,9 @@ using System;
 
 namespace freeSqlWeb1.Domain
 {
+    /// <summary>
+    /// 发布内容
+    /// </summary>
     public class Post
     {
         [Column(IsIdentity = true, IsPrimary = true)]

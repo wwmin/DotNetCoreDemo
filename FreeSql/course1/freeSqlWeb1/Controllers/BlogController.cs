@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace freeSqlWeb1.Controllers
 {
+    /// <summary>
+    /// Blog
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class BlogController : ControllerBase
@@ -20,6 +23,10 @@ namespace freeSqlWeb1.Controllers
             _fsql = fsql;
         }
 
+        /// <summary>
+        /// 查询所有blog
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<Blog>> Get()
         {
@@ -33,6 +40,13 @@ namespace freeSqlWeb1.Controllers
         public ActionResult<Blog> Get(int id)
         {
             return _fsql.Select<Blog>(id).ToOne();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Blog input)
+        {
+             var i=await _fsql.Insert<Blog>(input).ExecuteIdentityAsync();
+            return Ok(i);
         }
 
 

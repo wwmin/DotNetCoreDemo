@@ -3,6 +3,9 @@ using FreeSql.DataAnnotations;
 
 namespace freeSqlWeb1.Domain
 {
+    /// <summary>
+    /// 博客内容
+    /// </summary>
     public class Blog
     {
         [Column(IsIdentity = true, IsPrimary = true)]
