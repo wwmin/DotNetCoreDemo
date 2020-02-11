@@ -35,6 +35,17 @@ namespace freeSqlWeb1.Controllers
             return blogs;
         }
 
+        /// <summary>
+        /// 查询所有blog
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            List<Blog> blogs = await _fsql.Select<Blog>().ToListAsync();
+            return Ok(blogs);
+        }
+
         // GET api/blog/5
         [HttpGet("{id}")]
         public ActionResult<Blog> Get(int id)
@@ -45,7 +56,7 @@ namespace freeSqlWeb1.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Blog input)
         {
-             var i=await _fsql.Insert<Blog>(input).ExecuteIdentityAsync();
+            var i = await _fsql.Insert<Blog>(input).ExecuteIdentityAsync();
             return Ok(i);
         }
 
