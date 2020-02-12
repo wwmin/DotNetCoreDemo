@@ -54,7 +54,7 @@ namespace OcelotBasic
                         .AddJsonFile("appsettings.json", true, true)
                         .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", true,
                             true)
-                        //.AddOcelot("ocelot.json")
+                        //.AddOcelot("ocelot.json", true, true)
                         //.AddOcelot(hostingContext.HostingEnvironment)
                         //.AddJsonFile($"ocelot.{hostingContext.HostingEnvironment.EnvironmentName}.json")
                         //.AddOcelot((IWebHostEnvironment) hostingContext.HostingEnvironment)

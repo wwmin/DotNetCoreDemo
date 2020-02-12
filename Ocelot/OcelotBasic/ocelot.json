@@ -17,6 +17,10 @@
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotKey",
+        "AllowedScopes": []
       }
     },
     {
@@ -33,7 +37,11 @@
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
-      "Priority": 2 
+      "Priority": 2,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotKey",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
@@ -49,10 +57,18 @@
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
-      "Priority": 2
+      "Priority": 2,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotKey",
+        "AllowedScopes": []
+      }
     }
   ],
   "GlobalConfiguration": {
-
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    }
   }
 }
