@@ -32,7 +32,7 @@
           "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/good/{everything}",
+      "UpstreamPathTemplate": "/api_good/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
@@ -52,7 +52,7 @@
           "Port": 5002
         }
       ],
-      "UpstreamPathTemplate": "/order/{everything}",
+      "UpstreamPathTemplate": "/api_order/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
