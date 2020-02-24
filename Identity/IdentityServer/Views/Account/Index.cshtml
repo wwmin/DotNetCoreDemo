@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+
+<div align="center">
+    <h1>统一认证登录中心</h1>
+    <form action="/Account/Login" method="post">
+        用户名：<input type="text" name="userName" /><br />
+        密 码：<input type="password" name="password" /><input type="hidden" name="returnUrl" value="@ViewData["returnUrl"]" /> <br />
+        <input type="submit" value="登录" />
+    </form>
+</div>
+</body>
+</html>

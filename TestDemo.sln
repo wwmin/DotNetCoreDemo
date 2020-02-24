@@ -164,13 +164,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WeChat", "WeChat", "{14E2CB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeChatService", "WeChat\WeChatService\WeChatService.csproj", "{57DAA73E-9ECC-4434-802A-4DAB9DB5AEB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quartz.Job", "Quartz\Quartz.Job\Quartz.Job.csproj", "{FA3584F6-791F-4600-B0D4-ADA3FD5F78DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quartz.Job", "Quartz\Quartz.Job\Quartz.Job.csproj", "{FA3584F6-791F-4600-B0D4-ADA3FD5F78DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Alph", "Alph", "{3CAB2E49-FB89-4AF4-B753-927B8D023D22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphOcelot", "Ocelot\AlphOcelot\AlphOcelot\AlphOcelot.csproj", "{2DC05D51-F3D0-4F42-BFE8-0C96CC663A22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlphOcelot", "Ocelot\AlphOcelot\AlphOcelot\AlphOcelot.csproj", "{2DC05D51-F3D0-4F42-BFE8-0C96CC663A22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthPlatform.Getway", "Ocelot\AlphOcelot\AuthPlatform.Getway\AuthPlatform.Getway.csproj", "{3B1BACA0-866F-450B-B28F-1A3C4427E6EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthPlatform.Getway", "Ocelot\AlphOcelot\AuthPlatform.Getway\AuthPlatform.Getway.csproj", "{3B1BACA0-866F-450B-B28F-1A3C4427E6EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "Identity\IdentityServer\IdentityServer.csproj", "{7DED7815-0925-486C-A6BB-8B452F49D7CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityClient1", "Identity\IdentityClient1\IdentityClient1.csproj", "{1DC2C551-8CA3-41C3-9931-96D2683390E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityApi1", "Identity\IdentityApi1\IdentityApi1.csproj", "{F16CE4B9-DBBA-4E84-A85D-4B6AC7AD6AF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -366,6 +372,18 @@ Global
 		{3B1BACA0-866F-450B-B28F-1A3C4427E6EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B1BACA0-866F-450B-B28F-1A3C4427E6EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B1BACA0-866F-450B-B28F-1A3C4427E6EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DED7815-0925-486C-A6BB-8B452F49D7CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DED7815-0925-486C-A6BB-8B452F49D7CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DED7815-0925-486C-A6BB-8B452F49D7CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DED7815-0925-486C-A6BB-8B452F49D7CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DC2C551-8CA3-41C3-9931-96D2683390E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DC2C551-8CA3-41C3-9931-96D2683390E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DC2C551-8CA3-41C3-9931-96D2683390E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DC2C551-8CA3-41C3-9931-96D2683390E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F16CE4B9-DBBA-4E84-A85D-4B6AC7AD6AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F16CE4B9-DBBA-4E84-A85D-4B6AC7AD6AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F16CE4B9-DBBA-4E84-A85D-4B6AC7AD6AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F16CE4B9-DBBA-4E84-A85D-4B6AC7AD6AF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -435,6 +453,9 @@ Global
 		{3CAB2E49-FB89-4AF4-B753-927B8D023D22} = {8B0CBF13-5E06-4385-A7A3-77AEF0C1B74B}
 		{2DC05D51-F3D0-4F42-BFE8-0C96CC663A22} = {3CAB2E49-FB89-4AF4-B753-927B8D023D22}
 		{3B1BACA0-866F-450B-B28F-1A3C4427E6EA} = {3CAB2E49-FB89-4AF4-B753-927B8D023D22}
+		{7DED7815-0925-486C-A6BB-8B452F49D7CC} = {C9D53F17-D204-4CA8-B04D-3B8AC025EBE8}
+		{1DC2C551-8CA3-41C3-9931-96D2683390E4} = {C9D53F17-D204-4CA8-B04D-3B8AC025EBE8}
+		{F16CE4B9-DBBA-4E84-A85D-4B6AC7AD6AF2} = {C9D53F17-D204-4CA8-B04D-3B8AC025EBE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4EF96DB9-5218-4971-B3B4-CF7D9D0ADB05}
