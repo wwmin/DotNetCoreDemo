@@ -4,24 +4,56 @@
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "localhost",
+        //  "Port": 5001
+        //},
+        //{
+        //  "Host": "localhost",
+        //  "Port": 5002
+        //},
         {
           "Host": "localhost",
-          "Port": 5001
-        },
-        {
-          "Host": "localhost",
-          "Port": 5002
+          "Port": 5010
         }
       ],
-      "UpstreamPathTemplate": "/{everything}",
+      "UpstreamPathTemplate": "/api/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotKey",
+      //  "AllowedScopes": []
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/upload/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "localhost",
+        //  "Port": 5001
+        //},
+        //{
+        //  "Host": "localhost",
+        //  "Port": 5002
+        //},
+        {
+          "Host": "localhost",
+          "Port": 5010
+        }
+      ],
+      "UpstreamPathTemplate": "/upload/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotKey",
-        "AllowedScopes": []
-      }
+      "Priority": 2
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotKey",
+      //  "AllowedScopes": []
+      //}
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
@@ -37,11 +69,11 @@
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
-      "Priority": 2,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotKey",
-        "AllowedScopes": []
-      }
+      "Priority": 2
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotKey",
+      //  "AllowedScopes": []
+      //}
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
@@ -57,11 +89,11 @@
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
-      "Priority": 2,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotKey",
-        "AllowedScopes": []
-      }
+      "Priority": 2
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OcelotKey",
+      //  "AllowedScopes": []
+      //}
     }
   ],
   "GlobalConfiguration": {

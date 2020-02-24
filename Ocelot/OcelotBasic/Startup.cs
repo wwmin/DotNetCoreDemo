@@ -30,17 +30,17 @@ namespace OcelotBasic
         {
             #region IdentityServerService
 
-            var authenticationProviderKey = "OcelotKey";
-            var identityServerOptions = new IdentityServerOptions();
-            Configuration.Bind("IdentityServerOptions", identityServerOptions);
-            services.AddAuthentication(identityServerOptions.IdentityScheme)
-                .AddIdentityServerAuthentication(authenticationProviderKey, options =>
-                    {
-                        options.RequireHttpsMetadata = false;//是否启用https
-                        options.Authority = $"http://{identityServerOptions.ServerIP}:{identityServerOptions.ServerPort}";//配置授权认证的地址
-                        options.ApiName = identityServerOptions.ResourceName;//资源名称,跟认证服务中注册的资源列表名称中的apiResource一致
-                        options.SupportedTokens = SupportedTokens.Both;
-                    });
+            //var authenticationProviderKey = "OcelotKey";
+            //var identityServerOptions = new IdentityServerOptions();
+            //Configuration.Bind("IdentityServerOptions", identityServerOptions);
+            //services.AddAuthentication(identityServerOptions.IdentityScheme)
+            //    .AddIdentityServerAuthentication(authenticationProviderKey, options =>
+            //        {
+            //            options.RequireHttpsMetadata = false;//是否启用https
+            //            options.Authority = $"http://{identityServerOptions.ServerIP}:{identityServerOptions.ServerPort}";//配置授权认证的地址
+            //            options.ApiName = identityServerOptions.ResourceName;//资源名称,跟认证服务中注册的资源列表名称中的apiResource一致
+            //            options.SupportedTokens = SupportedTokens.Both;
+            //        });
             #endregion
             services.AddOcelot(new ConfigurationBuilder().AddJsonFile("ocelot.json", optional: true, reloadOnChange: true).Build()).AddConsul();
             //services.AddOcelot();//注入Ocelot服务
