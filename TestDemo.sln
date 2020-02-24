@@ -178,6 +178,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityApi1", "Identity\Id
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityConsoleApp1", "Identity\IdentityConsoleApp1\IdentityConsoleApp1.csproj", "{27AED24E-A132-4D76-A482-8D35F6463708}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityJavaScriptClient", "Identity\IdentityJavaScriptClient\IdentityJavaScriptClient.csproj", "{CD7547E4-88EB-402A-B873-514D49CAF4EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -384,6 +386,10 @@ Global
 		{27AED24E-A132-4D76-A482-8D35F6463708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27AED24E-A132-4D76-A482-8D35F6463708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27AED24E-A132-4D76-A482-8D35F6463708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD7547E4-88EB-402A-B873-514D49CAF4EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD7547E4-88EB-402A-B873-514D49CAF4EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD7547E4-88EB-402A-B873-514D49CAF4EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD7547E4-88EB-402A-B873-514D49CAF4EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -456,6 +462,7 @@ Global
 		{1DC2C551-8CA3-41C3-9931-96D2683390E4} = {C9D53F17-D204-4CA8-B04D-3B8AC025EBE8}
 		{F16CE4B9-DBBA-4E84-A85D-4B6AC7AD6AF2} = {C9D53F17-D204-4CA8-B04D-3B8AC025EBE8}
 		{27AED24E-A132-4D76-A482-8D35F6463708} = {C9D53F17-D204-4CA8-B04D-3B8AC025EBE8}
+		{CD7547E4-88EB-402A-B873-514D49CAF4EC} = {C9D53F17-D204-4CA8-B04D-3B8AC025EBE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4EF96DB9-5218-4971-B3B4-CF7D9D0ADB05}

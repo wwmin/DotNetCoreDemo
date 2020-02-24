@@ -31,6 +31,7 @@ namespace IdentityServer
 
         public static IEnumerable<Client> Clients => new List<Client>
         {
+            // machine to machine client
             new Client
             {
                 ClientId = "client",
@@ -39,6 +40,7 @@ namespace IdentityServer
                 //scopes that client has access to
                 AllowedScopes = {"api1"}
             },
+            // interactive asp.net core mvc client
             new Client
             {
                 ClientId = "mvc",
@@ -54,15 +56,20 @@ namespace IdentityServer
                     IdentityServerConstants.StandardScopes.Profile
                 }
             },
+            // javascript client
             new Client{
                 ClientId = "js",
                 ClientName = "JavaScript Client",
                 AllowedGrantTypes = GrantTypes.Code,
+                //AllowedGrantTypes = GrantTypes.Implicit,
+                //AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
+
                 RequirePkce = true,
                 RequireClientSecret = false,
-                RedirectUris = {"http://localhost:5003/callback.html"},
-                PostLogoutRedirectUris = {"http://localhost:5003/index.html"},
-                AllowedCorsOrigins = {"http://localhost:5003"},
+
+                RedirectUris =           { "http://localhost:5003/callback.html" },
+                PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
+                AllowedCorsOrigins =     { "http://localhost:5003","http://localhost:5002","http://localhost:5001","http://localhost:5000" },
 
                 AllowedScopes =
                 {
