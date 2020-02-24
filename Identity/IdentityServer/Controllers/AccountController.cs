@@ -62,6 +62,7 @@ namespace IdentityServer.Controllers
                     IsPersistent = true,
                     ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromDays(1))
                 };
+                
                 await HttpContext.SignInAsync(user.Id.ToString(), user.UserName, props);
                 if (returnUrl != null)
                 {

@@ -29,8 +29,16 @@ namespace IdentityServer
             };
 
 
-        public static IEnumerable<Client> Clients=>new List<Client>
+        public static IEnumerable<Client> Clients => new List<Client>
         {
+            new Client
+            {
+                ClientId = "client",
+                ClientSecrets = {new Secret("secret".Sha256())},
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                //scopes that client has access to
+                AllowedScopes = {"api1"}
+            },
             new Client
             {
                 ClientId = "mvc",
@@ -44,6 +52,23 @@ namespace IdentityServer
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile
+                }
+            },
+            new Client{
+                ClientId = "js",
+                ClientName = "JavaScript Client",
+                AllowedGrantTypes = GrantTypes.Code,
+                RequirePkce = true,
+                RequireClientSecret = false,
+                RedirectUris = {"http://localhost:5003/callback.html"},
+                PostLogoutRedirectUris = {"http://localhost:5003/index.html"},
+                AllowedCorsOrigins = {"http://localhost:5003"},
+
+                AllowedScopes =
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "api1"
                 }
             }
         };
