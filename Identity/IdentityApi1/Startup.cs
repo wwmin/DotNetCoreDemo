@@ -56,9 +56,10 @@ namespace IdentityApi1
             }
 
             app.UseRouting();
+            app.UseCors("default");
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("default");
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

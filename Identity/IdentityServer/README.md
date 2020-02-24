@@ -53,6 +53,7 @@ services.AddTransient<IAdminService, AdminService>();//service注入
 Add-Migration Init  //其中Init是你的版本名称
 update-database Init //更新数据库操作 init为版本名称
 ```
+最好将其设为启动项,否则会在默认启动项查找design,导致错误发生
 8.修改model之后使用同样的命令更新
 
 9.使用vscode控制台即cmd控制台命令更新数据库
