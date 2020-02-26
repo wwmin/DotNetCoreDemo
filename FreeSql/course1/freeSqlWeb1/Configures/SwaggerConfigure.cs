@@ -98,8 +98,8 @@ namespace freeSqlWeb1.Configures
             //Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint
             app.UseSwaggerUI(option =>
             {
-                option.SwaggerEndpoint("/swagger/freeSqlApi/swagger.json", "freeSqlApi Docs");
-                option.SwaggerEndpoint("/swagger/testApi/swagger.json", "test test");
+                option.SwaggerEndpoint("./swagger/freeSqlApi/swagger.json", "freeSqlApi Docs");//路径使用./方式防止使用二级域名导致路径错误问题
+                option.SwaggerEndpoint("./swagger/testApi/swagger.json", "test test");
                 //option.IndexStream = () => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("index.html");
                 option.RoutePrefix = string.Empty;
                 option.DocumentTitle = "freeSqlApi API";
