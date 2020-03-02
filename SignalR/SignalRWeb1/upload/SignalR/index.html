@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="https://docs.microsoft.com/favicon.ico" type="image/x-icon" />
+    <title></title>
+</head>
+<body>
+
+    <div><span>login</span> userName:<input type="text" id="userName" placeholder="userName" />,password:<input type="password" id="password" placeholder="password" /><button id="login" value="登录">登录</button></div>
+    <br />
+    <span>message:</span> <input type="text" id="message" placeholder="Enter message" />
+    <input type="button" id="SendToSelf" value="SendToSelf" />
+    <input type="button" id="SendToOthers" value="SendToOthers" />
+    <input type="button" id="SendToAll" value="SendToAll" />
+    <input type="button" id="AddToGroup" value="AddToGroup(userGroup)" />
+    <input type="button" id="RemoveFromGroup" value="RemoveFromGroup(userGroup)" />
+    <div></div>
+    <div></div>
+    <br />
+    <span>connectionId:</span>
+    <input style="width:200px" type="text" id="userConnectionId" placeholder="Enter connectionId" />
+    <input type="button" id="SendToUser" value="SendToUser" />
+    <ul id="msglist"></ul>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./signalr.js"></script>
+    <script>
+        var token = "";
+        $(function () {
+
+            let pathname = window.location.pathname;
+            let prePaths = pathname.split("/upload");
+            let prePath = "";
+            if (prePaths.length > 0) {
+                prePath = prePaths[0];
+            }
+            var hubConnection = new signalR.HubConnectionBuilder().withUrl(prePath + "/posthub", { accessTokenFactory: () => token }).configureLogging(signalR.LogLevel.Debug).build();
+            hubConnection.start();
+            $("#SendToSelf").click(function () {
+                var msg = $('#message').val();
+                hubConnection.invoke('SendToSelf', msg);
+            });
+
+            $("#SendToOthers").click(function () {
+                var msg = $('#message').val();
+                hubConnection.invoke('SendToOthers', msg);
+            });
+
+            $("#SendToAll").click(function () {
+                var msg = $('#message').val();
+                hubConnection.invoke('SendToAll', msg);
+            });
+            $("#AddToGroup").click(() => {
+                hubConnection.invoke('AddToGroup', "userGroup");
+            });
+
+            $("#RemoveFromGroup").click(() => {
+                hubConnection.invoke('RemoveFromGroup', "userGroup");
+            });
+
+            $("#SendToUser").click(() => {
+                var msg = $('#message').val();
+                var connectionId = $('#userConnectionId').val();
+
+                hubConnection.invoke('SendToUser', msg, connectionId);
+            });
+
+            //服务器回调方法
+            hubConnection.on('Show', data => {
+                $('#msglist').append($('<li>').text(data));
+            });
+            $("#login").click(() => {
+                let UserName = $("#userName").val();
+                let Password = $("#password").val();
+                var body = { UserName, Password };
+                let url = prePath + "/api/account/login";
+                fetch(url, { body: JSON.stringify(body), method: "post", headers: { 'Content-Type': 'application/json' } }).then(res => res.json()).then(res => {
+                    token = res.token;
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
