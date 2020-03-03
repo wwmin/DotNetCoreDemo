@@ -14,8 +14,8 @@ namespace mongoDBWeb1.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        [BsonElement("Name")]
-        [JsonProperty("Name")]
+        [BsonElement("BookName")]
+        [JsonProperty("BookName")]
         public string BookName { get; set; }
 
         public decimal Price { get; set; }

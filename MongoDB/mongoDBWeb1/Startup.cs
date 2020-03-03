@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using mongoDBWeb1.Infrastructure;
 using mongoDBWeb1.Models;
 using mongoDBWeb1.Services;
 
@@ -27,6 +28,7 @@ namespace mongoDBWeb1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.UseSwagger();
             services.Configure<BookstoreDatabaseSettings>(Configuration.GetSection(nameof(BookstoreDatabaseSettings)));
             services.AddSingleton<IBookstoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
             services.AddSingleton<BookService>();
@@ -40,7 +42,7 @@ namespace mongoDBWeb1
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMySwaggerUI();
             app.UseRouting();
 
             app.UseAuthorization();
