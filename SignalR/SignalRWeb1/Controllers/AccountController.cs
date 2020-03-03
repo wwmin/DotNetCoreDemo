@@ -11,6 +11,9 @@ using SignalRWeb1.Models.Dto;
 
 namespace SignalRWeb1.Controllers
 {
+    /// <summary>
+    /// 账户
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase

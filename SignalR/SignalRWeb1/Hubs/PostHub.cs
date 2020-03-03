@@ -70,7 +70,7 @@ namespace SignalRWeb1.Hubs
         {
             var connectionId = Context.ConnectionId;
             _log.LogInformation("hub connectionId:" + connectionId);
-            await Clients.AllExcept(connectionId).Show($"用户{connectionId}已登录");
+            await Clients.Client(connectionId).Show($"用户{connectionId}已登录");
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
