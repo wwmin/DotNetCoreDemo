@@ -184,10 +184,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer1", "Identity
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MongoDB", "MongoDB", "{C6BF6621-7F81-474E-9AB9-529D5417BAC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mongoDBWeb1", "MongoDB\mongoDBWeb1\mongoDBWeb1.csproj", "{EBAB1EC9-5B97-4F66-AB41-C64DCF91888F}"
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SignalR", "SignalR", "{6D8F5E19-706C-4813-A28E-8BCF5B52F3EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mongoDBWeb1", "MongoDB\mongoDBWeb1\mongoDBWeb1.csproj", "{EBAB1EC9-5B97-4F66-AB41-C64DCF91888F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRWeb1", "SignalR\SignalRWeb1\SignalRWeb1.csproj", "{4C5A7853-89B1-427B-BCE1-452920A04428}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Socket", "Socket", "{6D8F5E19-706C-4813-A28E-8BCF5B52F3EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRWeb1", "Socket\SignalRWeb1\SignalRWeb1.csproj", "{4C5A7853-89B1-427B-BCE1-452920A04428}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
