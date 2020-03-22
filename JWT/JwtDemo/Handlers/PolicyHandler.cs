@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace JwtDemo.Handlers
 {
-    public class PolicyHandler : AuthorizationHandler<PolicyRequirement>
+    public class PolicyHandler : AuthorizationHandler<PolicyRequirement, IDocument>
     {
         /// <summary>
         /// 授权方式 (cookie, bearer, oauth, openid)
@@ -41,8 +41,9 @@ namespace JwtDemo.Handlers
         /// </summary>
         /// <param name="context"></param>
         /// <param name="requirement"></param>
+        /// <param name="resource">基于资源的授权</param>
         /// <returns></returns>
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyRequirement requirement, IDocument resource)
         {
 
             var httpContext = _httpContextAccessor.HttpContext;
@@ -64,19 +65,41 @@ namespace JwtDemo.Handlers
                         return;
                     }
                     httpContext.User = result.Principal;
-                    //判断角色与url是否对应
-                    var url = httpContext.Request.Path.Value.ToLower();
-                    var role = httpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value; ;
-                    
+
 
                     //判断是否过期
-                    if (DateTime.Parse(httpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Expiration).Value) >= DateTime.UtcNow)
+                    if (DateTime.Parse(httpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Expiration).Value) < DateTime.UtcNow)
+                    {
+                        context.Fail();
+                    }
+
+
+                    //判断角色
+                    //var url = httpContext.Request.Path.Value.ToLower();
+                    var role = httpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value; ;
+                    if (context.User.IsInRole("admin"))
                     {
                         context.Succeed(requirement);
                     }
                     else
                     {
-                        context.Fail();
+                        //允许任何人创建或读取资源
+                        if(requirement == Operations.Create || requirement == Operations.Read)
+                        {
+                            context.Succeed(requirement);
+                        }
+                        else
+                        {
+                            //只有资源的创建者才可以修改和删除
+                            if(context.User.Identity.Name == resource.Creator)
+                            {
+                                context.Succeed(requirement);
+                            }
+                            else
+                            {
+                                context.Fail();
+                            }
+                        }
                     }
                     return;
                 }
