@@ -12,7 +12,8 @@ namespace JwtDemo.Controllers
 {
 
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    [Authorize(Policy = "Permission")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -26,7 +27,7 @@ namespace JwtDemo.Controllers
         {
             _logger = logger;
         }
-        [Authorize(Policy ="adminOnly")]
+
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
