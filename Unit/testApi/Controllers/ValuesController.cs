@@ -25,5 +25,17 @@ namespace testApi.Controllers
             var result = id + this.configuration.GetValue<int>("max");
             return result;
         }
+
+        [HttpPost]
+        public ActionResult<int> Post([FromBody]Person input)
+        {
+            return input.Age;
+        }
+    }
+
+    public class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
     }
 }
