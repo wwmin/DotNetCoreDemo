@@ -6,13 +6,13 @@ using Xunit;
 
 namespace XUnitTestProject
 {
-    public class ValuesUnitTest
+    public class ValuesApiUnitTest
     {
 
         private TestServer testServer;
         private HttpClient httpClient;
 
-        public ValuesUnitTest()
+        public ValuesApiUnitTest()
         {
             testServer = new TestServer(new WebHostBuilder().UseStartup<testApi.Startup>());
             httpClient = testServer.CreateClient();
