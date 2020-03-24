@@ -21,7 +21,11 @@ namespace JwtDemo.Handlers
         /// <summary>
         /// jwt服务
         /// </summary>
-        private readonly IJwtAppService _jetApp;
+        private readonly IJwtAppService _jwtApp;
+
+        /// <summary>
+        /// 当前上下文
+        /// </summary>
         IHttpContextAccessor _httpContextAccessor = null;
         /// <summary>
         /// ctor
@@ -32,7 +36,7 @@ namespace JwtDemo.Handlers
         public PolicyHandler(IAuthenticationSchemeProvider schemes, IJwtAppService jwtApp, IHttpContextAccessor httpContextAccessor)
         {
             Schemes = schemes;
-            _jetApp = jwtApp;
+            _jwtApp = jwtApp;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -59,7 +63,7 @@ namespace JwtDemo.Handlers
                 if (result.Succeeded)
                 {
                     //判断是否为已停用的token
-                    if (!await _jetApp.IsCurrentActiveTokenAsync())
+                    if (!await _jwtApp.IsCurrentActiveTokenAsync())
                     {
                         context.Fail();
                         return;
