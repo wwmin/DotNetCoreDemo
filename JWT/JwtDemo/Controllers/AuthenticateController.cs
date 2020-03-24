@@ -9,7 +9,7 @@ using JwtDemo.Authorization.Jwt;
 using JwtDemo.Authorization.Secret;
 using JwtDemo.Authorization.Secret.Dto;
 using JwtDemo.Configuration;
-using JwtDemo.Models;
+using JwtDemo.Inputs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -71,61 +71,10 @@ namespace JwtDemo.Controllers
         }
 
         #endregion
-        #region 登录
-        /// <summary>
-        /// 登录
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginInput input)
-        {
-            //从数据库验证用户名，密码 
-            //验证通过 否则 返回Unauthorized
-            //创建claim
-            var authClaims = new[] {
-                new Claim(JwtRegisteredClaimNames.NameId,input.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Name,input.UserName),
-                new Claim(ClaimTypes.Role,"admin"),
-                new Claim("adminOnly","true")
-            };
-            IdentityModelEventSource.ShowPII = false;
-            //签名秘钥 可以放到json文件中
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecurityKey));
 
-            var token = new JwtSecurityToken(
-                   issuer: _jwtOptions.Issuer,
-                   audience: _jwtOptions.Audience,
-                   expires: DateTime.Now.AddMinutes(_jwtOptions.ExpireMinutes),
-                   claims: authClaims,
-                   signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                   );
-
-            //返回token和过期时间
-            return Ok(new
-            {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
-            });
-        }
-
-        #endregion
 
 
         #region APIs
-
-        /// <summary>
-        /// 停用 Jwt 授权数据
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost("deactivate")]
-        public async Task<IActionResult> CancelAccessToken()
-        {
-            await _jwtApp.DeactivateCurrentAsync();
-            return Ok();
-        }
-
         /// <summary>
         /// 获取 Jwt 授权数据
         /// </summary>
@@ -204,6 +153,17 @@ namespace JwtDemo.Controllers
             });
         }
 
+
+        /// <summary>
+        /// 停用 Jwt 授权数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("deactivate")]
+        public async Task<IActionResult> CancelAccessToken()
+        {
+            await _jwtApp.DeactivateCurrentAsync();
+            return Ok();
+        }
         #endregion
     }
 }

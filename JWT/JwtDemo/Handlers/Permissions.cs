@@ -12,5 +12,7 @@ namespace JwtDemo.Handlers
         public const string UserRead = "User.Read";
         public const string UserUpdate = "User.Update";
         public const string UserDelete = "User.Delete";
+        public const string Role = "Role";
+        public const string RoleRead = "Role.Read";
     }
 }

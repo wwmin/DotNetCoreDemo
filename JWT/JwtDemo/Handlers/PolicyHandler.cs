@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace JwtDemo.Handlers
 {
-    public class PolicyHandler : AuthorizationHandler<PolicyRequirement, IDocument>
+    public class PolicyHandler : AuthorizationHandler<PolicyRequirement /*, IDocument */>
     {
         /// <summary>
         /// 授权方式 (cookie, bearer, oauth, openid)
@@ -43,7 +43,7 @@ namespace JwtDemo.Handlers
         /// <param name="requirement"></param>
         /// <param name="resource">基于资源的授权</param>
         /// <returns></returns>
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyRequirement requirement, IDocument resource)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyRequirement requirement/*, IDocument resource */)
         {
 
             var httpContext = _httpContextAccessor.HttpContext;
@@ -84,14 +84,14 @@ namespace JwtDemo.Handlers
                     else
                     {
                         //允许任何人创建或读取资源
-                        if(requirement == Operations.Create || requirement == Operations.Read)
+                        if (requirement == Operations.Create || requirement == Operations.Read)
                         {
                             context.Succeed(requirement);
                         }
                         else
                         {
                             //只有资源的创建者才可以修改和删除
-                            if(context.User.Identity.Name == resource.Creator)
+                            if (context.User.Identity.Name == "admin")//resource.Creator)
                             {
                                 context.Succeed(requirement);
                             }

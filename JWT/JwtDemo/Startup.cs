@@ -9,6 +9,7 @@ using JwtDemo.Authorization.Jwt;
 using JwtDemo.Authorization.Secret;
 using JwtDemo.Configuration;
 using JwtDemo.Handlers;
+using JwtDemo.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -46,6 +47,9 @@ namespace JwtDemo
                 //Redis实例名RedisDistributedCache
                 options.InstanceName = "jwt:";
             });
+            #region add store
+            services.AddTransient<UserStore>();
+            #endregion
             #region Swagger
             services.AddSwaggerGen(option =>
             {
@@ -117,6 +121,10 @@ namespace JwtDemo
             {
                 //1.definition authorization policy
                 options.AddPolicy("Permission", policy => policy.Requirements.Add(new PolicyRequirement()));
+                options.AddPolicy(Permissions.UserCreate, policy => policy.AddRequirements(new PermissionAuthorizationRequirement(Permissions.UserCreate)));
+                options.AddPolicy(Permissions.UserRead, policy => policy.AddRequirements(new PermissionAuthorizationRequirement(Permissions.UserRead)));
+                options.AddPolicy(Permissions.UserUpdate, policy => policy.AddRequirements(new PermissionAuthorizationRequirement(Permissions.UserUpdate)));
+                options.AddPolicy(Permissions.UserDelete, policy => policy.AddRequirements(new PermissionAuthorizationRequirement(Permissions.UserDelete)));
             }).AddAuthentication(options =>
             {
                 //2.authentication
@@ -133,7 +141,7 @@ namespace JwtDemo
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,//是否验证失效时间
-                    ClockSkew = TimeSpan.FromSeconds(10),//时间偏移量
+                    ClockSkew = TimeSpan.FromSeconds(1),//时间偏移量
                     ValidAudience = jwtOptions.Audience,
                     ValidIssuer = jwtOptions.Issuer,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey))
@@ -169,6 +177,8 @@ namespace JwtDemo
             //});
             //DI handler proces function
             services.AddSingleton<IAuthorizationHandler, PolicyHandler>();
+            //策略模式
+            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
             #endregion
             #region Add Assembly
             string assemblies = Configuration["Assembly:InfrastructureAssembly"];

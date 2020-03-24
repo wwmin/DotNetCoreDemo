@@ -61,11 +61,17 @@ namespace JwtDemo.Controllers
             return Ok(name?.Value);
         }
 
-        [Authorize]
         [HttpGet("getId")]
         public IActionResult GetId()
         {
             return Ok(new Random().Next(1));
+        }
+
+        [HttpGet("getSelfData")]
+        //[Authorize(Policy = Permissions.UserRead)]
+        public ActionResult<int> GetSelfData(int i)
+        {
+            return i;
         }
     }
 }
