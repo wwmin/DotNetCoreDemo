@@ -9,6 +9,7 @@ using JwtDemo.Authorization.Jwt;
 using JwtDemo.Authorization.Secret;
 using JwtDemo.Configuration;
 using JwtDemo.Handlers;
+using JwtDemo.Handlers.AgePolicyHandler;
 using JwtDemo.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -119,6 +120,7 @@ namespace JwtDemo
             var jwtOptions = Configuration.GetSection("Jwt").Get<JwtOptions>();
             services.AddAuthorization(options =>
             {
+               
                 //1.definition authorization policy
                 options.AddPolicy("Permission", policy => policy.Requirements.Add(new PolicyRequirement()));
                 options.AddPolicy(Permissions.UserCreate, policy => policy.AddRequirements(new PermissionAuthorizationRequirement(Permissions.UserCreate)));
@@ -179,6 +181,13 @@ namespace JwtDemo
             services.AddSingleton<IAuthorizationHandler, PolicyHandler>();
             //²ßÂÔÄ£Ê½
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+            // Replace the default authorization policy provider with our own
+            // custom provider which can return authorization policies for given
+            // policy names (instead of using the default policy provider)
+            services.AddSingleton<IAuthorizationPolicyProvider, AgePolicyProvider>();
+            // As always, handlers must be provided for the requirements of the authorization policies
+            services.AddSingleton<IAuthorizationHandler, AgeAuthorizationHandler>();
             #endregion
             #region Add Assembly
             string assemblies = Configuration["Assembly:InfrastructureAssembly"];

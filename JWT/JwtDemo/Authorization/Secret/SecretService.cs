@@ -30,7 +30,8 @@ namespace JwtDemo.Authorization.Secret
                 UserName = account,
                 Email = "test@mail.com",
                 Phone = "11111111111",
-                Role = "admin"
+                Role = "admin",
+                BirthDay = new DateTime(1988, 7, 20)
             };
 
             //Todo：AutoMapper 做实体转换

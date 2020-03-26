@@ -5,6 +5,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using JwtDemo.Handlers;
+using JwtDemo.Handlers.AgePolicyHandler;
+using JwtDemo.Infrastructures;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -62,16 +64,24 @@ namespace JwtDemo.Controllers
         }
 
         [HttpGet("getId")]
+        [Authorize(Policy = "Permission")]
         public IActionResult GetId()
         {
             return Ok(new Random().Next(1));
         }
 
         [HttpGet("getSelfData")]
-        //[Authorize(Policy = Permissions.UserRead)]
+        [Authorize(Policy = Permissions.UserRead)]
         public ActionResult<int> GetSelfData(int i)
         {
             return i;
+        }
+
+        [HttpGet("age")]
+        [AgeAuthorize(18)]
+        public ActionResult<int> GetSelfAge()
+        {
+            return ClaimUtil.UserAge(HttpContext);
         }
     }
 }

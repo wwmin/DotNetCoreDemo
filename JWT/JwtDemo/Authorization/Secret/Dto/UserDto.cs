@@ -18,6 +18,11 @@ namespace JwtDemo.Authorization.Secret.Dto
         public string UserName { get; set; }
 
         /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime BirthDay { get; set; }
+
+        /// <summary>
         /// 电子邮箱
         /// </summary>
         public string Email { get; set; }

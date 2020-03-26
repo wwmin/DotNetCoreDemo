@@ -71,7 +71,8 @@ namespace JwtDemo.Authorization.Jwt
                 new Claim(ClaimTypes.Name,dto.UserName),
                 new Claim(ClaimTypes.Role,dto.Role),
                 new Claim(ClaimTypes.Email,dto.Email),
-                new Claim(ClaimTypes.Expiration,expiresAt.ToString())
+                new Claim(ClaimTypes.Expiration,expiresAt.ToString()),
+                new Claim(ClaimTypes.DateOfBirth,dto.BirthDay.ToLongDateString())
             };
 
             identity.AddClaims(claims);
