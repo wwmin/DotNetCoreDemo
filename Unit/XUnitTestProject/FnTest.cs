@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Xunit;
 using Xunit.Abstractions;
+using XUnitTestProject.Infrastructure;
 
 namespace XUnitTestProject
 {
@@ -72,5 +73,79 @@ namespace XUnitTestProject
             }
 
         }
+
+        /// <summary>
+        /// 测试复合函数
+        /// </summary>
+        [Fact]
+        public void Test4()
+        {
+            Func<int, int> add = (int i) => i + 1;
+            Func<int, int> sub = (int i) => i - 1;
+            var f = add.Compose(sub);
+            var a = f(1);
+            Assert.Equal(1, a);
+        }
+
+
+        #region Myabe
+        /// <summary>
+        /// 实现 Maybe<T> monad，并利用 LINQ实现对 Nothing（空值）和 Just（有值）的求和
+        /// </summary>
+        [Fact]
+        public void Test5()
+        {
+            Maybe<int> a = Maybe.Just(5);
+            Maybe<int> b = Maybe.Nothing<int>();
+            Maybe<int> c = Maybe.Just(10);
+            _out.WriteLine(a.ToString());
+            _out.WriteLine(b.ToString());
+            _out.WriteLine(c.ToString());
+
+            Maybe<List<int>> ints = new Maybe<List<int>>();
+
+            Assert.Equal("Nothing", b.ToString());
+        }
+
+        /// <summary>
+        /// 实现 Maybe<T> monad，并利用 LINQ实现对 Nothing（空值）和 Just（有值）的求和
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public struct Maybe<T>
+        {
+            public readonly bool HasValue;
+            public readonly T Value;
+            public Maybe(bool hasValue, T value)
+            {
+                HasValue = hasValue;
+                Value = value;
+            }
+
+            public Maybe<B> SelectMany<TCollection, B>(Func<T, Maybe<TCollection>> collectionSelector, Func<T, TCollection, B> f)
+            {
+                if (!HasValue) return Maybe.Nothing<B>();
+
+                Maybe<TCollection> collection = collectionSelector(Value);
+                if (!collection.HasValue) return Maybe.Nothing<B>();
+                return Maybe.Just(f(Value, collection.Value));
+            }
+
+            public override string ToString() => HasValue ? $"Just {Value}" : "Nothing";
+
+        }
+
+        public class Maybe
+        {
+            public static Maybe<T> Just<T>(T value)
+            {
+                return new Maybe<T>(true, value);
+            }
+            public static Maybe<T> Nothing<T>()
+            {
+                return new Maybe<T>();
+            }
+        }
+        #endregion
+
     }
 }
