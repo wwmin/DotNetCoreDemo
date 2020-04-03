@@ -196,6 +196,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{9BE54F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppChess", "Blazor\BlazorAppChess\BlazorAppChess.csproj", "{D79C083C-BB22-4974-ADBA-704DB3BD6FEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackExchangeReids", "Redis\StackExchangeReids\StackExchangeReids.csproj", "{D960ACB4-5208-4175-95F3-4335CF265266}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -426,6 +428,10 @@ Global
 		{D79C083C-BB22-4974-ADBA-704DB3BD6FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D79C083C-BB22-4974-ADBA-704DB3BD6FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D79C083C-BB22-4974-ADBA-704DB3BD6FEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D960ACB4-5208-4175-95F3-4335CF265266}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D960ACB4-5208-4175-95F3-4335CF265266}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D960ACB4-5208-4175-95F3-4335CF265266}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D960ACB4-5208-4175-95F3-4335CF265266}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -504,6 +510,7 @@ Global
 		{4C5A7853-89B1-427B-BCE1-452920A04428} = {6D8F5E19-706C-4813-A28E-8BCF5B52F3EA}
 		{97677114-9723-40A4-98E3-A704B33F40E4} = {6D8F5E19-706C-4813-A28E-8BCF5B52F3EA}
 		{D79C083C-BB22-4974-ADBA-704DB3BD6FEF} = {9BE54F2A-B2CB-4886-9911-464B2272D5C8}
+		{D960ACB4-5208-4175-95F3-4335CF265266} = {B3BD9D6E-875D-479C-8129-016C851D7F02}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4EF96DB9-5218-4971-B3B4-CF7D9D0ADB05}
