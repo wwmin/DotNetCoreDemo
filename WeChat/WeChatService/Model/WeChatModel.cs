@@ -257,5 +257,61 @@ namespace WeChatService.Model
             /// </summary>
             public string errmsg { get; set; }
         }
+
+        /// <summary>
+        /// 订阅消息发送参数
+        /// </summary>
+        public class SubscribeMessageSendCondition
+        {
+            /// <summary>
+            /// 接口调用凭证 (必填)
+            /// </summary>
+            public string access_token { get; set; }
+            /// <summary>
+            /// 接收者（用户）的 openid (必填)
+            /// </summary>
+            public string touser { get; set; }
+            /// <summary>
+            /// 所需下发的订阅模板id (必填)
+            /// </summary>
+            public string template_id { get; set; }
+            /// <summary>
+            /// 点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,（示例index?foo=bar）。该字段不填则模板无跳转。
+            /// </summary>
+            public string page { get; set; }
+            /// <summary>
+            /// 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
+            /// </summary>
+            public object data { get; set; }
+            /// <summary>
+            /// 跳转小程序类型：developer为开发版；trial为体验版；formal为正式版；默认为正式版
+            /// </summary>
+            public string miniprogram_state { get; set; }
+            /// <summary>
+            /// 进入小程序查看”的语言类型，支持zh_CN(简体中文)、en_US(英文)、zh_HK(繁体中文)、zh_TW(繁体中文)，默认为zh_CN
+            /// </summary>
+            public string lang { get; set; }
+        }
+
+        /// <summary>
+        /// 订阅消息返回值
+        /// </summary>
+        public class SubscribeMessageSendResult
+        {
+            /// <summary>
+            /// 错误码 
+            /// 40003	touser字段openid为空或者不正确	
+            /// 40037	订阅模板id为空不正确	
+            /// 43101	用户拒绝接受消息，如果用户之前曾经订阅过，则表示用户取消了订阅关系	
+            /// 47003	模板参数不准确，可能为空或者不满足规则，errmsg会提示具体是哪个字段出错	
+            /// 41030	page路径不正确，需要保证在现网版本小程序中存在，与app.json保持一致
+            /// 次数限制：开通支付能力的是3kw/日，没开通的是1kw/日
+            /// </summary>
+            public int errcode { get; set; }
+            /// <summary>
+            /// 错误信息
+            /// </summary>
+            public string errmsg { get; set; }
+        }
     }
 }

@@ -33,8 +33,10 @@ namespace WeChatService.Infrastructure
             // 小程序
             public const string URL_CODE_TOKEN = "sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code";
 
-            //消息推送
-            public const string URL_MESSAGE_SEND = "cgi-bin/message/wxopen/template/send?access_token={0}";
+            //模板消息推送 (从2020年1月已废弃,清使用订阅消息)
+            public const string URL_TEMPLATE_MESSAGE_SEND = "cgi-bin/message/wxopen/template/send?access_token={0}";
+            //订阅消息
+            public const string URL_SUBSCRIBE_MESSAGE_SEND = "message/subscribe/send?access_token={0}";
         }
     }
 }

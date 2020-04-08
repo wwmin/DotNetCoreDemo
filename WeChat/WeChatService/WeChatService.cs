@@ -146,11 +146,11 @@ namespace WeChatService
         }
 
         /// <summary>
-        /// 小程序消息推送
+        /// 小程序模板消息推送 (官方提示已废弃,清使用订阅消息推送)
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        public Result MessageSend(WeChatModel.MessageSendCondition param)
+        public Result TemplateMessageSend(WeChatModel.MessageSendCondition param)
         {
             Result rs = new Result();
             if (param == null || string.IsNullOrWhiteSpace(param.access_token) || string.IsNullOrWhiteSpace(param.touser) || string.IsNullOrWhiteSpace(param.template_id) || string.IsNullOrWhiteSpace(param.form_id))
@@ -161,7 +161,7 @@ namespace WeChatService
             }
             using (var client = Helper.CreateHttpClient(Const.WECHAT.URL_ROOT))
             {
-                var url = string.Format(Const.WECHAT.URL_MESSAGE_SEND, param.access_token);
+                var url = string.Format(Const.WECHAT.URL_TEMPLATE_MESSAGE_SEND, param.access_token);
                 var httpContent = Helper.SerializeObject(param);
                 var requestContent = new StringContent(httpContent);
 
@@ -175,6 +175,48 @@ namespace WeChatService
                     return rs;
                 }
                 WeChatModel.MessageSendResult o = Helper.DeserializeJsonToEntity<WeChatModel.MessageSendResult>(Helper.Unicode2String(content));
+                if (o == null || o.errcode != 0)
+                {
+                    rs.success = false;
+                    rs.message = o.errmsg;
+                    rs.data = o;
+                    return rs;
+                }
+                rs.data = o;
+                return rs;
+            }
+        }
+
+        /// <summary>
+        /// 小程序订阅消息推送
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public Result SubscribeMessageSend(WeChatModel.SubscribeMessageSendCondition param)
+        {
+            Result rs = new Result();
+            if (param == null || string.IsNullOrWhiteSpace(param.access_token) || string.IsNullOrWhiteSpace(param.touser) || string.IsNullOrWhiteSpace(param.template_id))
+            {
+                rs.success = false;
+                rs.message = $"参数错误,请将必填项填写完整,{nameof(param.access_token)},{nameof(param.touser)},{nameof(param.template_id)}";
+                return rs;
+            }
+            using (var client = Helper.CreateHttpClient(Const.WECHAT.URL_ROOT))
+            {
+                var url = string.Format(Const.WECHAT.URL_SUBSCRIBE_MESSAGE_SEND, param.access_token);
+                var httpContent = Helper.SerializeObject(param);
+                var requestContent = new StringContent(httpContent);
+
+                var response = client.PostAsync(url, requestContent).Result;
+                var content = response.Content.ReadAsStringAsync().Result;
+                var statusCode = response.StatusCode;
+                if (statusCode != HttpStatusCode.OK)
+                {
+                    rs.success = false;
+                    rs.message = content;
+                    return rs;
+                }
+                WeChatModel.SubscribeMessageSendResult o = Helper.DeserializeJsonToEntity<WeChatModel.SubscribeMessageSendResult>(Helper.Unicode2String(content));
                 if (o == null || o.errcode != 0)
                 {
                     rs.success = false;
