@@ -8,6 +8,13 @@ namespace Event1
         static void Main(string[] args)
         {
             Console.WriteLine("Hello Event!");
+            #region event1
+            Publisher pub = new Publisher();
+            pub.SampleEvent += publishEvent;
+            pub.RaiseSampleEvent();
+            Console.ReadKey();
+            #endregion
+            #region event2
             Counter c = new Counter(new Random().Next(10));
             Console.WriteLine($"临界值为:{c.GetThreshold()}");
             c.ThresholdReached += c_ThresholdReached;
@@ -18,6 +25,13 @@ namespace Event1
                 Console.WriteLine("adding one");
                 c.Add(1);
             }
+            #endregion
+
+        }
+
+        static void publishEvent(object sender, SampleEventArgs e)
+        {
+            Console.WriteLine("publish event say: " + e.Text);
         }
 
         static async void c_ThresholdReached(object sender, ThresholdReachedEventArgs e)
@@ -33,7 +47,7 @@ namespace Event1
     public class SampleEventArgs
     {
         public SampleEventArgs(string s) { Text = s; }
-        public String Text { get; }//readonly
+        public string Text { get; }//readonly
     }
 
     public class Publisher
@@ -46,7 +60,7 @@ namespace Event1
 
         // Wrap the event in a protected virtual method
         // to enable derived classes to raise the event.
-        protected virtual void RaiseSampleEvent()
+        public void RaiseSampleEvent()
         {
             // Raise the event in a thread-safe manner using the ?. operator.
             SampleEvent?.Invoke(this, new SampleEventArgs("Hello"));
