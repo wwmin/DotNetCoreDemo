@@ -228,5 +228,72 @@ namespace WeChatService
                 return rs;
             }
         }
+
+        /// <summary>
+        /// 小程序订阅消息推送 同时推多个
+        /// </summary>
+        /// <param name="paramList"></param>
+        /// <returns></returns>
+        public Result SubscribeMessageSendMulti(List<WeChatModel.SubscribeMessageSendCondition> paramList)
+        {
+            Result allResult = new Result();
+            var data = new List<Result>();
+            foreach (var param in paramList)
+            {
+                Result rs = new Result();
+                if (param == null || string.IsNullOrWhiteSpace(param.access_token) || string.IsNullOrWhiteSpace(param.touser) || string.IsNullOrWhiteSpace(param.template_id))
+                {
+                    rs.success = false;
+                    rs.message = $"参数错误,请将必填项填写完整,{nameof(param.access_token)},{nameof(param.touser)},{nameof(param.template_id)}";
+                    data.Add(rs);
+                }
+            }
+            if (data.Count > 0)
+            {
+                allResult.success = false;
+                allResult.message = "参数错误";
+                allResult.data = data;
+                return allResult;
+            }
+
+            using (var client = Helper.CreateHttpClient(Const.WECHAT.URL_ROOT))
+            {
+                foreach (var param in paramList)
+                {
+                    Result rs = new Result();
+                    var url = string.Format(Const.WECHAT.URL_SUBSCRIBE_MESSAGE_SEND, param.access_token);
+                    var httpContent = Helper.SerializeObject(param);
+                    var requestContent = new StringContent(httpContent);
+
+                    var response = client.PostAsync(url, requestContent).Result;
+                    var content = response.Content.ReadAsStringAsync().Result;
+                    var statusCode = response.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        rs.success = false;
+                        rs.message = content;
+                        data.Add(rs);
+                    }
+                    else
+                    {
+                        WeChatModel.SubscribeMessageSendResult o = Helper.DeserializeJsonToEntity<WeChatModel.SubscribeMessageSendResult>(Helper.Unicode2String(content));
+                        if (o == null || o.errcode != 0)
+                        {
+                            rs.success = false;
+                            rs.message = o.errmsg;
+                            rs.data = o;
+                            data.Add(rs);
+                        }
+                        else
+                        {
+                            rs.data = o;
+                            data.Add(rs);
+                        }
+                    }
+                }
+            }
+            allResult.data = data;
+            return allResult;
+        }
     }
 }
