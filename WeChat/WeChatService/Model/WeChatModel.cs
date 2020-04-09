@@ -282,7 +282,7 @@ namespace WeChatService.Model
             /// <summary>
             /// 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
             /// </summary>
-            public object data { get; set; }
+            public MessageDataObject data { get; set; }
             /// <summary>
             /// 跳转小程序类型：developer为开发版；trial为体验版；formal为正式版；默认为正式版
             /// </summary>
@@ -293,6 +293,38 @@ namespace WeChatService.Model
             public string lang { get; set; }
         }
 
+        /// <summary>
+        /// MessageDataObject
+        /// </summary>
+        public class MessageDataObject
+        {
+            public MessageValue name1 { get; set; }
+            public MessageValue name2 { get; set; }
+            public MessageValue name3 { get; set; }
+            public MessageValue name4 { get; set; }
+            public MessageValue name5 { get; set; }
+            public MessageValue name6 { get; set; }
+            public MessageValue name7 { get; set; }
+            public MessageValue name8 { get; set; }
+            public MessageValue name9 { get; set; }
+            public MessageValue name10 { get; set; }
+
+            public MessageValue time1 { get; set; }
+            public MessageValue time2 { get; set; }
+            public MessageValue time3 { get; set; }
+            public MessageValue time4 { get; set; }
+            public MessageValue time5 { get; set; }
+            public MessageValue time6 { get; set; }
+            public MessageValue time7 { get; set; }
+            public MessageValue time8 { get; set; }
+            public MessageValue time9 { get; set; }
+            public MessageValue time10 { get; set; }
+        }
+
+        public class MessageValue
+        {
+            public string value { get; set; }
+        }
         /// <summary>
         /// 订阅消息返回值
         /// </summary>
