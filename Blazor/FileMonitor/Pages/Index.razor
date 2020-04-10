@@ -1,0 +1,44 @@
+﻿@page "/"
+@using FileMonitor.Data
+@inject FileMonitorService FileMonitorService
+
+<h1 class="index-title-class">服务器数据库文件备份监控</h1>
+@*<SurveyPrompt Title="How is Blazor working for you?" />*@
+
+@if (fileStates == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>修改日期</th>
+                <th>文件名</th>
+                <th>文件大小(KB)</th>
+                <th>文件位置</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in fileStates)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.FileName</td>
+                    <td>@forecast.FileSize</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private FileMonitorModel[] fileStates;
+
+    protected override async Task OnInitializedAsync()
+    {
+        fileStates = await FileMonitorService.GetFileStateAsync();
+    }
+}
