@@ -319,6 +319,17 @@ namespace WeChatService.Model
             public MessageValue time8 { get; set; }
             public MessageValue time9 { get; set; }
             public MessageValue time10 { get; set; }
+
+            public MessageValue thing1 { get; set; }
+            public MessageValue thing2 { get; set; }
+            public MessageValue thing3 { get; set; }
+            public MessageValue thing4 { get; set; }
+            public MessageValue thing5 { get; set; }
+            public MessageValue thing6 { get; set; }
+            public MessageValue thing7 { get; set; }
+            public MessageValue thing8 { get; set; }
+            public MessageValue thing9 { get; set; }
+            public MessageValue thing10 { get; set; }
         }
 
         public class MessageValue
