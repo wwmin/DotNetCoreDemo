@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
@@ -10,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,7 +28,8 @@ namespace WindowsFormsApp1
                 DownloadImage(e.Result.Url, e.Result.Name).ContinueWith(file =>
                 {
                     Console.WriteLine(file.Result.fullPath);
-                    GenerateWallPaper(file.Result.fullPath, file.Result.imageDirectory, "hello world.");
+                   var wallpaperFileName =GenerateWallPaper(file.Result.fullPath, file.Result.imageDirectory, "hello world.");
+                    Wallpaper.Set(wallpaperFileName, Wallpaper.Style.Centered);
                 });
             });
             InitializeComponent();
@@ -71,6 +74,13 @@ namespace WindowsFormsApp1
             return (fullPath, name, rootPath + prefixPath);
         }
 
+        /// <summary>
+        /// 制作背景图片
+        /// </summary>
+        /// <param name="pictureFileFullPath"></param>
+        /// <param name="fileDirectory"></param>
+        /// <param name="textContent"></param>
+        /// <returns></returns>
         static string GenerateWallPaper(string pictureFileFullPath, string fileDirectory, string textContent)
         {
 
@@ -129,6 +139,12 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
             return wallpaperFileName;
         }
 
+        /// <summary>
+        /// 创建图片
+        /// </summary>
+        /// <param name="wicFactory"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         static SharpDX.WIC.FormatConverter CreateWicImage(SharpDX.WIC.ImagingFactory wicFactory, string fileName)
         {
             using var decoder = new SharpDX.WIC.JpegBitmapDecoder(wicFactory);
@@ -140,7 +156,12 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
             return converter;
 
         }
-
+        /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="wicFactory"></param>
+        /// <param name="wicBitmap"></param>
+        /// <param name="outputStream"></param>
         static void SaveD2DBitmap(SharpDX.WIC.ImagingFactory wicFactory, SharpDX.WIC.Bitmap wicBitmap, Stream outputStream)
         {
             using var encoder = new SharpDX.WIC.BitmapEncoder(wicFactory, SharpDX.WIC.ContainerFormatGuids.Png);
@@ -155,6 +176,50 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
 
             frame.Commit();
             encoder.Commit();
+        }
+
+        public sealed class Wallpaper
+        {
+            const int SPI_SETDESKWALLPAPER = 20;
+            const int SPIF_UPDATEINIFILE = 0x01;
+            const int SPIF_SENDWININICHANGE = 0x02;
+
+            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+            static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+
+            public enum Style : int
+            {
+                Tiled,
+                Centered,
+                Stretched
+            }
+
+            public static void Set(string pictureFileName, Style style)
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
+                if (style == Style.Stretched)
+                {
+                    key.SetValue(@"WallpaperStyle", 2.ToString());
+                    key.SetValue(@"TileWallpaper", 0.ToString());
+                }
+
+                if (style == Style.Centered)
+                {
+                    key.SetValue(@"WallpaperStyle", 1.ToString());
+                    key.SetValue(@"TileWallpaper", 0.ToString());
+                }
+
+                if (style == Style.Tiled)
+                {
+                    key.SetValue(@"WallpaperStyle", 1.ToString());
+                    key.SetValue(@"TileWallpaper", 1.ToString());
+                }
+
+                SystemParametersInfo(SPI_SETDESKWALLPAPER,
+                    0,
+                    pictureFileName,
+                    SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
+            }
         }
     }
 }
