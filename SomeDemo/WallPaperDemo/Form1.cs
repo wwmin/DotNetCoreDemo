@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WallPaperDemo.Properties;
 
 namespace WallPaperDemo
 {
@@ -236,8 +237,15 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
         {
             this.ShowInTaskbar = false;
             this.mainNotifyIcon.Visible = true;
+            InitView();
+        }
+
+        private void InitView()
+        {
             textBoxExt1.Text = ImageUrl;
             textBox1.Text = "Hello,World!";
+
+            this.checkBox_copyToClipBoard.Checked = Settings.Default.IsCopyToClipboard;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -378,6 +386,8 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
         private void checkBox_copyToClipBoard_CheckedChanged(object sender, EventArgs e)
         {
             IsCopyToClipboard = checkBox_copyToClipBoard.Checked;
+            Settings.Default.IsCopyToClipboard = IsCopyToClipboard;
+            Settings.Default.Save();
         }
     }
 
