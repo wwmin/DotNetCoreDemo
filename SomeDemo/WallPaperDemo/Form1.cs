@@ -24,7 +24,7 @@ namespace WallPaperDemo
         private static string ImagePath = @"images/";
         private static string ImageOriginPath = @"origin/";
         private static string ImageWallPaperPath = @"wallpaper/";
-        private string PictureText { get; set; }
+        private static bool IsCopyToClipboard = false;
         #region 设置背景图片
         /// <summary>
         /// 获取并解析图片路径
@@ -73,7 +73,6 @@ namespace WallPaperDemo
             {
                 File.Copy(url, fullPath, true);
             }
-
             return (fullPath, name, rootPath);
         }
 
@@ -179,7 +178,6 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
             var pixelFormat = wicBitmap.PixelFormat;
             frame.SetPixelFormat(ref pixelFormat);
             frame.WriteSource(wicBitmap);
-
             frame.Commit();
             encoder.Commit();
         }
@@ -236,6 +234,8 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.ShowInTaskbar = false;
+            this.mainNotifyIcon.Visible = true;
             textBoxExt1.Text = ImageUrl;
             textBox1.Text = "Hello,World!";
         }
@@ -252,8 +252,19 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
             var image = await GetImagePath(imagePath);
             var file = await DownloadImage(image.Url, image.Name);
             var wallPaperFileName = GenerateWallPaper(file.fullPath, file.imageDirectory + ImageWallPaperPath, !string.IsNullOrWhiteSpace(fileContent) ? fileContent : "hello world.");
+            CopyToClipboard(wallPaperFileName);
             Wallpaper.Set(wallPaperFileName, Wallpaper.Style.Centered);
         }
+
+        private static void CopyToClipboard(string fullPath)
+        {
+            if (IsCopyToClipboard)
+            {
+                System.Drawing.Image image = System.Drawing.Image.FromFile(fullPath);
+                Clipboard.SetImage(image);
+            }
+        }
+
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -318,10 +329,10 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
         /// <param name="e"></param>
         private void mainNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (this.Visible)
+            if (this.WindowState != FormWindowState.Minimized)
             {
                 this.WindowState = FormWindowState.Minimized;
-                this.mainNotifyIcon.Visible = false;
+                this.mainNotifyIcon.Visible = true;
                 this.Hide();
             }
             else
@@ -330,6 +341,43 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
                 this.WindowState = FormWindowState.Normal;
                 this.Activate();
             }
+        }
+
+        private void ToolStripMenuItemMaximize_Click(object sender, EventArgs e)
+        {
+            //this.WindowState = FormWindowState.Maximized;
+            //this.mainNotifyIcon.Visible = true;
+            //this.Show();
+        }
+
+        private void ToolStripMenuItemMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+            this.mainNotifyIcon.Visible = true;
+            this.Show();
+        }
+
+        private void ToolStripMenuItemNormal_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.mainNotifyIcon.Visible = true;
+            this.Show();
+        }
+
+        private void ToolStripMenuItemQuit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("你确定要退出吗?", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            {
+                this.mainNotifyIcon.Visible = false;
+                this.Close();
+                this.Dispose();
+                System.Environment.Exit(System.Environment.ExitCode);
+            }
+        }
+
+        private void checkBox_copyToClipBoard_CheckedChanged(object sender, EventArgs e)
+        {
+            IsCopyToClipboard = checkBox_copyToClipBoard.Checked;
         }
     }
 

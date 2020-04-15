@@ -37,10 +37,10 @@ namespace WallPaperDemo
             this.label2 = new System.Windows.Forms.Label();
             this.mainNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.mainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.最小化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.最大化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.还原ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oolStripMenuItemMinimize = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemNormal = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemQuit = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkBox_copyToClipBoard = new System.Windows.Forms.CheckBox();
             this.textBoxExt1 = new WallPaperDemo.TextBoxExt();
             this.textBox1 = new WallPaperDemo.TextBoxExt();
             this.mainContextMenuStrip.SuspendLayout();
@@ -48,9 +48,9 @@ namespace WallPaperDemo
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 99);
+            this.button1.Location = new System.Drawing.Point(114, 99);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(776, 33);
+            this.button1.Size = new System.Drawing.Size(482, 33);
             this.button1.TabIndex = 2;
             this.button1.Text = "设置桌面背景";
             this.button1.UseVisualStyleBackColor = true;
@@ -76,6 +76,7 @@ namespace WallPaperDemo
             // 
             // mainNotifyIcon
             // 
+            this.mainNotifyIcon.ContextMenuStrip = this.mainContextMenuStrip;
             this.mainNotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("mainNotifyIcon.Icon")));
             this.mainNotifyIcon.Text = "桌面背景";
             this.mainNotifyIcon.Visible = true;
@@ -85,36 +86,43 @@ namespace WallPaperDemo
             // 
             this.mainContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mainContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.最大化ToolStripMenuItem,
-            this.最小化ToolStripMenuItem,
-            this.还原ToolStripMenuItem,
-            this.退出ToolStripMenuItem});
+            this.oolStripMenuItemMinimize,
+            this.ToolStripMenuItemNormal,
+            this.ToolStripMenuItemQuit});
             this.mainContextMenuStrip.Name = "mainContextMenuStrip";
-            this.mainContextMenuStrip.Size = new System.Drawing.Size(124, 100);
+            this.mainContextMenuStrip.Size = new System.Drawing.Size(124, 76);
             // 
-            // 退出ToolStripMenuItem
+            // oolStripMenuItemMinimize
             // 
-            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.退出ToolStripMenuItem.Text = "退出";
+            this.oolStripMenuItemMinimize.Name = "oolStripMenuItemMinimize";
+            this.oolStripMenuItemMinimize.Size = new System.Drawing.Size(123, 24);
+            this.oolStripMenuItemMinimize.Text = "最小化";
+            this.oolStripMenuItemMinimize.Click += new System.EventHandler(this.ToolStripMenuItemMinimize_Click);
             // 
-            // 最小化ToolStripMenuItem
+            // ToolStripMenuItemNormal
             // 
-            this.最小化ToolStripMenuItem.Name = "最小化ToolStripMenuItem";
-            this.最小化ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.最小化ToolStripMenuItem.Text = "最小化";
+            this.ToolStripMenuItemNormal.Name = "ToolStripMenuItemNormal";
+            this.ToolStripMenuItemNormal.Size = new System.Drawing.Size(123, 24);
+            this.ToolStripMenuItemNormal.Text = "还原";
+            this.ToolStripMenuItemNormal.Click += new System.EventHandler(this.ToolStripMenuItemNormal_Click);
             // 
-            // 最大化ToolStripMenuItem
+            // ToolStripMenuItemQuit
             // 
-            this.最大化ToolStripMenuItem.Name = "最大化ToolStripMenuItem";
-            this.最大化ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.最大化ToolStripMenuItem.Text = "最大化";
+            this.ToolStripMenuItemQuit.Name = "ToolStripMenuItemQuit";
+            this.ToolStripMenuItemQuit.Size = new System.Drawing.Size(123, 24);
+            this.ToolStripMenuItemQuit.Text = "退出";
+            this.ToolStripMenuItemQuit.Click += new System.EventHandler(this.ToolStripMenuItemQuit_Click);
             // 
-            // 还原ToolStripMenuItem
+            // checkBox_copyToClipBoard
             // 
-            this.还原ToolStripMenuItem.Name = "还原ToolStripMenuItem";
-            this.还原ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.还原ToolStripMenuItem.Text = "还原";
+            this.checkBox_copyToClipBoard.AutoSize = true;
+            this.checkBox_copyToClipBoard.Location = new System.Drawing.Point(657, 107);
+            this.checkBox_copyToClipBoard.Name = "checkBox_copyToClipBoard";
+            this.checkBox_copyToClipBoard.Size = new System.Drawing.Size(119, 19);
+            this.checkBox_copyToClipBoard.TabIndex = 6;
+            this.checkBox_copyToClipBoard.Text = "复制到剪切板";
+            this.checkBox_copyToClipBoard.UseVisualStyleBackColor = true;
+            this.checkBox_copyToClipBoard.CheckedChanged += new System.EventHandler(this.checkBox_copyToClipBoard_CheckedChanged);
             // 
             // textBoxExt1
             // 
@@ -144,6 +152,7 @@ namespace WallPaperDemo
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 144);
+            this.Controls.Add(this.checkBox_copyToClipBoard);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxExt1);
@@ -170,10 +179,10 @@ namespace WallPaperDemo
         private TextBoxExt textBoxExt1;
         private NotifyIcon mainNotifyIcon;
         private ContextMenuStrip mainContextMenuStrip;
-        private ToolStripMenuItem 退出ToolStripMenuItem;
-        private ToolStripMenuItem 最大化ToolStripMenuItem;
-        private ToolStripMenuItem 最小化ToolStripMenuItem;
-        private ToolStripMenuItem 还原ToolStripMenuItem;
+        private ToolStripMenuItem ToolStripMenuItemQuit;
+        private ToolStripMenuItem oolStripMenuItemMinimize;
+        private ToolStripMenuItem ToolStripMenuItemNormal;
+        private CheckBox checkBox_copyToClipBoard;
     }
 
 
