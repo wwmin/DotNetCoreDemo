@@ -16,34 +16,39 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WallPaperDemo
+namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        private static string ImageUrl = @"https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-cn";
-        private static string ImagePath = @"images/";
-        private static string ImageOriginPath = @"origin/";
-        private static string ImageWallPaperPath = @"wallpaper/";
-        private string PictureText { get; set; }
-        #region 设置背景图片
+        public Form1()
+        {
+            GetImagePath().ContinueWith(e =>
+            {
+                Console.WriteLine(e.Result.Name + "," + e.Result.Url);
+                DownloadImage(e.Result.Url, e.Result.Name).ContinueWith(file =>
+                {
+                    Console.WriteLine(file.Result.fullPath);
+                   var wallpaperFileName =GenerateWallPaper(file.Result.fullPath, file.Result.imageDirectory, "hello world.");
+                    Wallpaper.Set(wallpaperFileName, Wallpaper.Style.Centered);
+                });
+            });
+            InitializeComponent();
+        }
+
         /// <summary>
         /// 获取并解析图片路径
         /// </summary>
         /// <returns></returns>
-        static async Task<(string Url, string Name)> GetImagePath(string url)
+        static async Task<(string Url, string Name)> GetImagePath()
         {
-            var name = DateTime.Now.ToString("yyyyMMdd") + "_" + Guid.NewGuid().ToString("n") + ".jpg";
-            if (!url.StartsWith("http"))
-            {
-                return (url, name);
-            }
             var http = new HttpClient();
+            string url = @"https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-cn";
             string content = await http.GetStringAsync(url);
             JToken json = JToken.Parse(content);
             IEnumerable<JToken> images = json["images"];
             string pictureUrl = images.Select(x => x["url"].ToString())
                 .Select(x => "https://cn.bing.com" + x).First();
-            string hsh = images.Select(x => name).First();
+            string hsh = images.Select(x => DateTime.Now.ToString("yyyyMMdd") + "_" + x["hsh"].ToString() + ".jpg").First();
             return (pictureUrl, hsh);
         }
         /// <summary>
@@ -56,8 +61,8 @@ namespace WallPaperDemo
         {
             var http = new HttpClient();
             //var fileName = Path.GetTempFileName();
-            string rootPath = Directory.GetCurrentDirectory() + @"/" + ImagePath;
-            string prefixPath = ImageOriginPath;
+            string rootPath = Directory.GetCurrentDirectory();
+            string prefixPath = @"/images/";
             string fileName = name;
             if (!Directory.Exists(rootPath + prefixPath))
             {
@@ -65,16 +70,8 @@ namespace WallPaperDemo
             }
             string fullPath = rootPath + prefixPath + fileName;
             //var fileName = Path.Combine(Directory.GetCurrentDirectory(), @"/images/") + DateTime.Now.ToFileTimeUtc();
-            if (url.StartsWith("http"))
-            {
-                File.WriteAllBytes(fullPath, await http.GetByteArrayAsync(url));
-            }
-            else
-            {
-                File.Copy(url, fullPath, true);
-            }
-
-            return (fullPath, name, rootPath);
+            File.WriteAllBytes(fullPath, await http.GetByteArrayAsync(url));
+            return (fullPath, name, rootPath + prefixPath);
         }
 
         /// <summary>
@@ -134,10 +131,7 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
                 target.DrawBitmap(bmpLayer, 1.0f, BitmapInterpolationMode.Linear);
             }
             target.EndDraw();
-            if (!Directory.Exists(fileDirectory))
-            {
-                Directory.CreateDirectory(fileDirectory);
-            }
+
             string wallpaperFileName = fileDirectory + DateTime.Now.ToString("yyyyMMdd") + "_" + "wallpaper.png";
             using var wallpaperStream = File.OpenWrite(wallpaperFileName);
             SaveD2DBitmap(wic, wicBitmap, wallpaperStream);
@@ -227,132 +221,5 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
                     SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
             }
         }
-        #endregion
-        #region 控件相关
-        public Form1()
-        {
-            InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            textBoxExt1.Text = ImageUrl;
-            textBox1.Text = "Hello,World!";
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var url = textBoxExt1.Text;
-            var text = textBox1.Text;
-            SetWallPaper(url, text);
-        }
-
-        private async void SetWallPaper(string imagePath, string fileContent)
-        {
-            var image = await GetImagePath(imagePath);
-            var file = await DownloadImage(image.Url, image.Name);
-            var wallPaperFileName = GenerateWallPaper(file.fullPath, file.imageDirectory + ImageWallPaperPath, !string.IsNullOrWhiteSpace(fileContent) ? fileContent : "hello world.");
-            Wallpaper.Set(wallPaperFileName, Wallpaper.Style.Centered);
-        }
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                button1.Focus();
-                this.button1_Click(sender, e);//触发button事件
-            }
-        }
-
-        private void label1_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.All;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
-        }
-
-        private void textBoxExt1_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.All;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
-        }
-
-        private void textBoxExt1_DragDrop(object sender, DragEventArgs e)
-        {
-            string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
-            textBoxExt1.Text = path;
-        }
-        //  只有Form_Closing事件中 e.Cancel可以用。
-        //  你的是Form_Closed事件。 Form_Closed事件时窗口已关了 ，Cancel没用了；
-        //  Form_Closing是窗口即将关闭时询问你是不是真的关闭才有Cancel事件
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //注意判断关闭事件reason来源于窗体按钮，否则用菜单退出时无法退出!
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                //取消"关闭窗口"事件
-                e.Cancel = true;
-
-                //使关闭时窗口向右下角缩小的效果
-                this.WindowState = FormWindowState.Minimized;
-                this.mainNotifyIcon.Visible = true;
-                this.Hide();
-                return;
-            }
-        }
-
-        /// <summary>
-        /// 双击托盘 打开主窗体
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void mainNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (this.Visible)
-            {
-                this.WindowState = FormWindowState.Minimized;
-                this.mainNotifyIcon.Visible = false;
-                this.Hide();
-            }
-            else
-            {
-                this.Visible = true;
-                this.WindowState = FormWindowState.Normal;
-                this.Activate();
-            }
-        }
     }
-
-    public class TextBoxExt : TextBox
-    {
-        public string PlaceHolder { get; set; }
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg == 0xF || m.Msg == 0x133)
-            {
-                WmPaint(ref m);
-            }
-        }
-
-        private void WmPaint(ref Message m)
-        {
-            Graphics g = Graphics.FromHwnd(base.Handle);
-            if (!string.IsNullOrEmpty(this.PlaceHolder))
-            {
-                g.DrawString(this.PlaceHolder, this.Font, new SolidBrush(System.Drawing.Color.LightGray), 0, 0);
-            }
-        }
-    }
-    #endregion
 }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WallPaperDemo", "WallPaperDemo.csproj", "{4BD94F60-C5A9-43A0-8168-EF377DAF7BF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WallPaperDemo", "WallPaperDemo.csproj", "{C7DCE7EE-5EAD-4307-A08A-858BB1176E4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4BD94F60-C5A9-43A0-8168-EF377DAF7BF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4BD94F60-C5A9-43A0-8168-EF377DAF7BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4BD94F60-C5A9-43A0-8168-EF377DAF7BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4BD94F60-C5A9-43A0-8168-EF377DAF7BF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7DCE7EE-5EAD-4307-A08A-858BB1176E4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7DCE7EE-5EAD-4307-A08A-858BB1176E4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7DCE7EE-5EAD-4307-A08A-858BB1176E4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7DCE7EE-5EAD-4307-A08A-858BB1176E4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {14E6608C-8F6B-458F-A7EC-5BE5EA2D4C9D}
+		SolutionGuid = {7DE72EC9-4510-4EE1-9873-36D554956102}
 	EndGlobalSection
 EndGlobal
