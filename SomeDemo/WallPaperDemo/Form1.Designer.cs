@@ -2,7 +2,7 @@
 
 namespace WallPaperDemo
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -31,8 +31,8 @@ namespace WallPaperDemo
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1 = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.button_setwall = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.mainNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
@@ -41,20 +41,20 @@ namespace WallPaperDemo
             this.ToolStripMenuItemNormal = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemQuit = new System.Windows.Forms.ToolStripMenuItem();
             this.checkBox_copyToClipBoard = new System.Windows.Forms.CheckBox();
-            this.textBoxExt1 = new WallPaperDemo.TextBoxExt();
-            this.textBox1 = new WallPaperDemo.TextBoxExt();
+            this.textBox_imageUrl = new WallPaperDemo.TextBoxExt();
+            this.textBox_imageText = new WallPaperDemo.TextBoxExt();
             this.mainContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // button_setwall
             // 
-            this.button1.Location = new System.Drawing.Point(114, 99);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(482, 33);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "设置桌面背景";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_setwall.Location = new System.Drawing.Point(114, 99);
+            this.button_setwall.Name = "button_setwall";
+            this.button_setwall.Size = new System.Drawing.Size(482, 33);
+            this.button_setwall.TabIndex = 2;
+            this.button_setwall.Text = "设置桌面背景";
+            this.button_setwall.UseVisualStyleBackColor = true;
+            this.button_setwall.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
@@ -124,29 +124,29 @@ namespace WallPaperDemo
             this.checkBox_copyToClipBoard.UseVisualStyleBackColor = true;
             this.checkBox_copyToClipBoard.CheckedChanged += new System.EventHandler(this.checkBox_copyToClipBoard_CheckedChanged);
             // 
-            // textBoxExt1
+            // textBox_imageUrl
             // 
-            this.textBoxExt1.AllowDrop = true;
-            this.textBoxExt1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBoxExt1.Location = new System.Drawing.Point(114, 6);
-            this.textBoxExt1.Name = "textBoxExt1";
-            this.textBoxExt1.PlaceHolder = null;
-            this.textBoxExt1.Size = new System.Drawing.Size(674, 30);
-            this.textBoxExt1.TabIndex = 1;
-            this.textBoxExt1.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBoxExt1_DragDrop);
-            this.textBoxExt1.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBoxExt1_DragEnter);
+            this.textBox_imageUrl.AllowDrop = true;
+            this.textBox_imageUrl.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBox_imageUrl.Location = new System.Drawing.Point(114, 6);
+            this.textBox_imageUrl.Name = "textBox_imageUrl";
+            this.textBox_imageUrl.PlaceHolder = null;
+            this.textBox_imageUrl.Size = new System.Drawing.Size(674, 30);
+            this.textBox_imageUrl.TabIndex = 1;
+            this.textBox_imageUrl.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBoxExt1_DragDrop);
+            this.textBox_imageUrl.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBoxExt1_DragEnter);
             // 
-            // textBox1
+            // textBox_imageText
             // 
-            this.textBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBox1.Location = new System.Drawing.Point(114, 54);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.PlaceHolder = null;
-            this.textBox1.Size = new System.Drawing.Size(674, 30);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            this.textBox_imageText.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBox_imageText.Location = new System.Drawing.Point(114, 54);
+            this.textBox_imageText.Name = "textBox_imageText";
+            this.textBox_imageText.PlaceHolder = null;
+            this.textBox_imageText.Size = new System.Drawing.Size(674, 30);
+            this.textBox_imageText.TabIndex = 0;
+            this.textBox_imageText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
-            // Form1
+            // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -155,12 +155,12 @@ namespace WallPaperDemo
             this.Controls.Add(this.checkBox_copyToClipBoard);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBoxExt1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBox_imageUrl);
+            this.Controls.Add(this.textBox_imageText);
+            this.Controls.Add(this.button_setwall);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "下载图片并设置背景图";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -172,11 +172,11 @@ namespace WallPaperDemo
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_setwall;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private TextBoxExt textBox1;
-        private TextBoxExt textBoxExt1;
+        private TextBoxExt textBox_imageText;
+        private TextBoxExt textBox_imageUrl;
         private NotifyIcon mainNotifyIcon;
         private ContextMenuStrip mainContextMenuStrip;
         private ToolStripMenuItem ToolStripMenuItemQuit;

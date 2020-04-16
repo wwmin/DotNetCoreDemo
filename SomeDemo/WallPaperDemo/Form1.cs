@@ -16,10 +16,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WallPaperDemo.Properties;
+using WallPaperDemo.Util;
 
 namespace WallPaperDemo
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private static string ImageUrl = @"https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-cn";
         private static string ImagePath = @"images/";
@@ -228,7 +229,7 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
         }
         #endregion
         #region 控件相关
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -242,16 +243,22 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
 
         private void InitView()
         {
-            textBoxExt1.Text = ImageUrl;
-            textBox1.Text = "Hello,World!";
+            textBox_imageUrl.Text = ImageUrl;
+            ToolTip tip = new ToolTip();
+            //textBox_imageUrl.ShowToolTip(tip, "imageUrl");
+            textBox_imageUrl.MouseHover += (object sender, EventArgs e) => textBox_imageUrl.ShowToolTip(tip, "图片路径可以为网络图片url, 也可以时本地图片路径,可拖拽图片到此输入框,并使用此图片", 4, 15, 5000);
 
+            textBox_imageText.Text = "Hello,World!";
+            checkBox_copyToClipBoard.MouseHover += (object sender, EventArgs e) => checkBox_copyToClipBoard.ShowToolTip(tip, "勾选上之后可将渲染好的图片拷贝到剪切板", 2, 10, 5000);
             this.checkBox_copyToClipBoard.Checked = Settings.Default.IsCopyToClipboard;
+
+            button_setwall.MouseHover += (object sender, EventArgs e) => button_setwall.ShowToolTip(tip, "将图片加上文字之后设置为桌面背景,图片可在此应用的image文件夹中找到", 4, 10, 5000);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var url = textBoxExt1.Text;
-            var text = textBox1.Text;
+            var url = textBox_imageUrl.Text;
+            var text = textBox_imageText.Text;
             SetWallPaper(url, text);
         }
 
@@ -273,11 +280,12 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
             }
         }
 
+
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                button1.Focus();
+                button_setwall.Focus();
                 this.button1_Click(sender, e);//触发button事件
             }
         }
@@ -309,7 +317,7 @@ new SharpDX.Direct2D1.BitmapProperties1(new SharpDX.Direct2D1.PixelFormat(SharpD
         private void textBoxExt1_DragDrop(object sender, DragEventArgs e)
         {
             string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
-            textBoxExt1.Text = path;
+            textBox_imageUrl.Text = path;
         }
         //  只有Form_Closing事件中 e.Cancel可以用。
         //  你的是Form_Closed事件。 Form_Closed事件时窗口已关了 ，Cancel没用了；

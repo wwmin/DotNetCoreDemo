@@ -23,7 +23,7 @@ namespace WallPaperDemo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             GlobalMutext();
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
 
         private static void GlobalMutext()
