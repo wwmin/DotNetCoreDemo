@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="t2.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>t2.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="t1.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>t1.tt</DependentUpon>
+    </Compile>
+    <Compile Update="t2.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>t2.tt</DependentUpon>
+    </Compile>
+    <Compile Update="TextTemplatingFilePreprocessor_test.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TextTemplatingFilePreprocessor_test.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="t1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>t1.cs</LastGenOutput>
+    </None>
+    <None Update="t2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>t2.cs</LastGenOutput>
+    </None>
+    <None Update="TextTemplatingFilePreprocessor_test.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TextTemplatingFilePreprocessor_test.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

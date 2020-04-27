@@ -1,0 +1,49 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+// 1. 测试变量循环
+<# int top = 10;
+for(int i =0;i<=top;i++)
+{ #>
+// The square of <#= i #> is <#= i*i #>
+<# } #>
+
+
+
+// 2. 测试生成类:
+<# var properties = new string[]{"p1","p2","p3"}; #>
+class MyGeneratedClass{
+<# //this code runs in the text template:
+    foreach(string propertyName in properties){#>
+	//Generated code:
+	private int <#= propertyName #> = 0;
+<# } #>
+}
+
+// 3. 读取外部文件
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# var dataTxt = File.ReadLines("./T4Test/data.txt");#>
+class MyGeneratedClass1{
+<# //this code runs in the text template:
+    foreach(string propertyName in dataTxt){#>
+	//Generated code:
+	private int <#= propertyName #> = 0;
+<# } #>
+}
+
+// 4. 从 Visual Studio 获取数据
+
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+
+<# 
+	IServiceProvider serviceProvider = (IServiceProvider)this.Host;
+	EnvDTE.DTE dte = (EnvDTE.DTE) serviceProvider.GetCOMService(typeof(EnvDTE.DTE));
+#>
+// Number of projects in this vs solution: <#= dte.Solution.Projects.Count #>

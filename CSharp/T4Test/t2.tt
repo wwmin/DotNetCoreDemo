@@ -1,0 +1,113 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Xml"#>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="EnvDTE" #>
+<#
+ // Map node name --> child name --> child node type
+ Dictionary<string, Dictionary<string, XmlNodeType>> nodeTypes = new Dictionary<string, Dictionary<string, XmlNodeType>>();
+
+ // The Visual Studio host, to get the local file path.
+ EnvDTE.DTE dte = (EnvDTE.DTE) ((IServiceProvider) this.Host)
+                       .GetService(typeof(EnvDTE.DTE));
+ // Open the prototype document.
+ XmlDocument doc = new XmlDocument();
+ doc.Load(System.IO.Path.Combine(dte.ActiveDocument.Path,"data2.xml"));
+ // Inspect all the nodes in the document.
+ // The example might contain many nodes of the same type,
+ // so make a dictionary of node types and their children.
+
+  foreach (XmlNode node in doc.SelectNodes("//*"))
+ {
+   Dictionary<string, XmlNodeType> subs = null;
+   if (!nodeTypes.TryGetValue(node.Name, out subs))
+   {
+     subs = new Dictionary<string, XmlNodeType>();
+     nodeTypes.Add(node.Name, subs);
+   }
+   foreach (XmlNode child in node.ChildNodes)
+   {
+     subs[child.Name] = child.NodeType;
+   }
+   foreach (XmlNode child in node.Attributes)
+   {
+     subs[child.Name] = child.NodeType;
+   }
+ }
+ #>
+using System.Collections.Generic;
+using System.Xml;
+ <#
+  // Generate a class for each node type.
+ foreach (string className in nodeTypes.Keys)
+ {
+    // Capitalize the first character of the name.
+#>
+
+    partial class <#= UpperInitial(className) #>
+    {      
+        private XmlNode thisNode;      
+        public <#= UpperInitial(className) #>(XmlNode node)       { 
+        thisNode = node; 
+    }
+
+<#
+    // Generate a property for each child.
+    foreach (string childName in nodeTypes[className].Keys)
+    {
+      // Allow for different types of child.
+      switch (nodeTypes[className][childName])
+      {
+         // Child nodes:
+         case XmlNodeType.Element:
+#>
+      public IEnumerable<<#=UpperInitial(childName)#>><#=UpperInitial(childName) #>      {         
+      get         
+      {            
+      foreach (XmlNode node in thisNode.SelectNodes("<#=childName#>"))              
+      yield return new <#=UpperInitial(childName)#>(node);       
+      } 
+      }
+<#
+         break;
+         // Child attributes:
+         case XmlNodeType.Attribute:
+#>
+      public string <#=childName #>      { get { return thisNode.Attributes["<#=childName#>"].Value; } }
+<#
+         break;
+         // Plain text:
+         case XmlNodeType.Text:
+#>
+      public string Text  { get { return thisNode.InnerText; } }
+<#
+         break;
+       } // switch
+     } // foreach class child
+  // End of the generated class:
+#>
+   }
+<#
+ } // foreach class
+
+   // Add a constructor for the root class
+   // that accepts an XML filename.
+   string rootClassName = doc.SelectSingleNode("*").Name;
+#>
+   partial class <#= UpperInitial(rootClassName) #>   {      
+   public <#= UpperInitial(rootClassName) #>(string fileName){ 
+   XmlDocument doc = new XmlDocument();
+   doc.Load(fileName);        
+   thisNode = doc.SelectSingleNode("<#=rootClassName#>");}
+   }
+<#+
+   private string UpperInitial(string name)
+   {
+      return name[0].ToString().ToUpperInvariant() + name.Substring(1);
+   }
+#>

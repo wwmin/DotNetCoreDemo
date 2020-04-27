@@ -1,0 +1,10 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".txt" #>
+<html><body>
+ <p>将此纯文本文件模板的属性中"自定义工具"属性设置为 TextTemplatingFilePreprocessor ,则标识运行时文本</p>
+ The date and time now is: <#= DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") #>
+</body></html>
