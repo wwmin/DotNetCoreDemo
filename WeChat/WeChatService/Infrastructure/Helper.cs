@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace WeChatService.Infrastructure
@@ -188,6 +190,51 @@ namespace WeChatService.Infrastructure
         {
             return new Regex(@"\\u([0-9A-F]{4})", RegexOptions.IgnoreCase | RegexOptions.Compiled).Replace(
                    source, x => string.Empty + Convert.ToChar(Convert.ToUInt16(x.Result("$1"), 16)));
+        }
+
+        #region 支持IQueryable 异步操作
+
+        #endregion
+        /// <summary>
+        /// ToListAsync
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static Task<List<T>> ToListAsync<T>(this IQueryable<T> list)
+        {
+            return Task.Run(() => list.ToList());
+        }
+        /// <summary>
+        /// FirstOrDefaultAsync
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static Task<T> FirstOrDefaultAsync<T>(this IQueryable<T> list)
+        {
+            return Task.Run(() => list.FirstOrDefault());
+        }
+
+        /// <summary>
+        /// LastOrDefaultAsync
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static Task<T> LastOrDefaultAsync<T>(this IQueryable<T> list)
+        {
+            return Task.Run(() => list.LastOrDefault());
+        }
+        /// <summary>
+        /// AnyAsync
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static Task<bool> AnyAsync<T>(this IQueryable<T> list)
+        {
+            return Task.Run(() => list.Any());
         }
     }
 }
