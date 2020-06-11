@@ -8,7 +8,7 @@ namespace sendMQ
     {
         static void Main(string[] args)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var factory = new ConnectionFactory() { HostName = "localhost", UserName = "admin", Password = "admin" , Port = 5672 };
             using (var connection = factory.CreateConnection())
             {
                 using (var channel = connection.CreateModel())
