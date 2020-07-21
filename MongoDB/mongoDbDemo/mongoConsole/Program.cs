@@ -24,7 +24,7 @@ namespace mongoConsole
         {
             CollectionModel new_item = new CollectionModel()
             {
-                title = "demo",
+                //title = "demo",//使用默认值
                 content = "demo content",
                 favor = 100,
                 author = new Author
@@ -35,7 +35,11 @@ namespace mongoConsole
                 tag = TagEnumeration.CSharp,
                 tagString = TagEnumeration.CSharp,
                 post_time = DateTime.Now,
-                post_time_serialize = DateTime.Now
+                post_time_serialize = DateTime.Now,
+                extra_info = new System.Collections.Generic.Dictionary<string, int> { { "name", 1 }, { "age", 2 } },
+                bson_element_name = "test bson element name",
+                number_string = 1,
+                ignore_string = "ignore string"
             };
             Contact contact_item1 = new Contact()
             {
