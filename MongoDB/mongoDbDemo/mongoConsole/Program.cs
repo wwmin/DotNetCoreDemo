@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 
@@ -6,13 +7,15 @@ namespace mongoConsole
 {
     class Program
     {
-        private const string MongoDBConnection = "mongodb://localhost:27017/admin";
+        private const string MongoDBConnection = "mongodb://test:111111@localhost:27017/test";
 
         private static IMongoClient _client = new MongoClient(MongoDBConnection);
         private static IMongoDatabase _database = _client.GetDatabase("test");
         private static IMongoCollection<CollectionModel> _collection = _database.GetCollection<CollectionModel>("TestCollection");
         static async Task Main(string[] args)
         {
+            BsonSerializer.RegisterSerializer(typeof(DateTime), new MyDateTimeSerializer());
+
             await Demo();
             Console.WriteLine("Hello World!");
         }
@@ -31,7 +34,8 @@ namespace mongoConsole
                 },
                 tag = TagEnumeration.CSharp,
                 tagString = TagEnumeration.CSharp,
-                post_time = DateTime.Now
+                post_time = DateTime.Now,
+                post_time_serialize = DateTime.Now
             };
             Contact contact_item1 = new Contact()
             {

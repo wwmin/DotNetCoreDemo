@@ -4,6 +4,9 @@ using System;
 
 namespace mongoConsole
 {
+    /// <summary>
+    /// 修改mongodb中对于DateTime字段的序列化类
+    /// </summary>
     public class MyDateTimeSerializer : DateTimeSerializer
     {
         public override DateTime Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)

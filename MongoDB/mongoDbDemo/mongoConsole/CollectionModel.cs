@@ -17,9 +17,9 @@ namespace mongoConsole
         public TagEnumeration tag { get; set; }
         [BsonRepresentation(BsonType.String)]
         public TagEnumeration tagString { get; set; }
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime post_time { get; set; } 
-
+        //[BsonDateTimeOptions(Kind = DateTimeKind.Local)]//MyDateTimeSerializer全局话后就不用对DateTime加特殊特性了
+        public DateTime post_time { get; set; }
+        //[BsonSerializer(typeof(MyDateTimeSerializer))]//或者将此出配置全部化,
         public DateTime post_time_serialize { get; set; }
     }
 
