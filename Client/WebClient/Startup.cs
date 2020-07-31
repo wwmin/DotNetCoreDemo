@@ -13,6 +13,7 @@ using WebClient.Services;
 using Polly.Extensions.Http;
 using Polly;
 using WebClient.MiddleWare;
+using WebClient.Model;
 
 namespace WebClient
 {
@@ -43,6 +44,7 @@ namespace WebClient
                         Console.ResetColor();
                     });
                 });
+            services.Configure<Greeting>(Configuration.GetSection("Greeting:Information"));//Using IOption pattern for configuration
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
