@@ -21,10 +21,11 @@ namespace FileUpload.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("section")]
-        public async Task<IActionResult> DownloadStream([FromBody] FileDownloadDto option)
+        public async Task DownloadStream([FromBody] FileDownloadDto option)
         {
             await HttpContext.DownLoadFile(option.filePath);
-            return Ok(HttpContext.Response.Body);
+            //不需要设置返回ok状态码，因为context的内容和状态已经自己设置，否则会报`StatusCode cannot be set because the response has already started`错误
+            //return Ok(HttpContext.Response.Body);
         }
     }
     public class FileDownloadDto

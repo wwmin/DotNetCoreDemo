@@ -5,6 +5,9 @@
     <meta charset="utf-8" />
     <title>测试分片下载</title>
     <style>
+        .tip {
+            margin: 20px auto;
+        }
     </style>
 </head>
 
@@ -13,18 +16,22 @@
         <div>
             <h1>test download by section</h1>
         </div>
-        <div>
+        <input type="text" value="" placeholder="请输入下载文件名称" id="fileNameId" />
+        <button type="button" onclick="startDownload()">下载</button>
+        <div class="tip">
             <div class="progress">下载进度：<span id="progress"></span>%</div>
         </div>
     </div>
     <script src="./axios.min.js"></script>
     <script>
-        downloadTask();
-        function downloadTask() {
+        function downloadTask(fileName) {
+            if (!fileName) {
+                return;
+            }
             axios({
                 method: "post",
                 url: "http://localhost:5000/api/fileDownload/section",
-                data: { filePath: `D:\\work\\demo\\DotNetCoreDemo\\Files\\FileUpload\\upload\\1.zip` },
+                data: { filePath: `upload\\${fileName}` },
                 responseType: "blob",
                 onDownloadProgress(progress) {
                     updateProgressUI(progress);
@@ -36,7 +43,7 @@
                 let link = document.createElement("a");
                 link.style.display = "none";
                 link.href = url;
-                link.setAttribute("download", "1.zip");
+                link.setAttribute("download", fileName);
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -48,6 +55,10 @@
         let progressDomId = document.getElementById("progress");
         function updateProgressUI(progress) {
             progressDomId.innerText = Math.round(progress.loaded / progress.total * 100, 2);
+        }
+        function startDownload() {
+            let fileName = document.getElementById("fileNameId").value;
+            downloadTask(fileName);
         }
     </script>
 </body>

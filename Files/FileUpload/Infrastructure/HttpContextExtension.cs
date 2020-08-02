@@ -27,8 +27,10 @@ namespace FileUpload.Infrastructure
             context.Response.ContentType = contentType;
             context.Response.Headers.Append("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName));
             context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+            var currentPath = Directory.GetCurrentDirectory();
+            string fileRealPath = Path.Combine(currentPath, filePath);
             //使用FileStream开始循环读取要下载文件的内容
-            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream(fileRealPath, FileMode.Open, FileAccess.Read))
             {
                 using (context.Response.Body)
                 {

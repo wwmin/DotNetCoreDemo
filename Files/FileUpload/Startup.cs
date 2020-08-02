@@ -70,10 +70,11 @@ namespace FileUpload
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("default");
             app.UseSwaggerUI();
 
             app.UseRouting();
-            app.UseCors("default");
+ 
             var cachePeriod = env.IsDevelopment() ? "600" : "315360000";
             #region file service
             app.UseStaticFiles(new StaticFileOptions()
