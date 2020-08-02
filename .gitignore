@@ -2,5 +2,5 @@
 .vscode/
 **/bin/
 **/obj/
-**/files/**
 SomeDemo/WallPaperDemo/publish/
+*.zip
