@@ -33,6 +33,15 @@ namespace FileUpload
                 //重置文件上传的大小限制
                 options.MultipartBodyLengthLimit = long.MaxValue;
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("http://127.0.0.1:5500")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
             services.AddControllers();
         }
 
@@ -45,10 +54,11 @@ namespace FileUpload
             }
 
             app.UseRouting();
+            app.UseCors("default");
             var cachePeriod = env.IsDevelopment() ? "600" : "315360000";
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"files")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "files")),
                 RequestPath = "/upload",
                 OnPrepareResponse = ctx =>
                 {

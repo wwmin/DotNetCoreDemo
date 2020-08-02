@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using FileUpload.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -172,21 +171,21 @@ namespace FileUpload.Controllers
         #endregion
 
         #region 使用封装的FormFile上传
-        /// <summary>
-        /// 使用自定义的UserFile上传
-        /// </summary>
-        /// <param name="file">UserFile</param>
-        /// <returns></returns>
-        [HttpPost("file")]
-        public async Task<IActionResult> UseFormAttributeUpload([FromForm] UserFile file)
-        {
-            if (file == null || !file.IsValid)
-                return BadRequest("不允许上传的文件类型");
-            string newFile = string.Empty;
-            if (file != null)
-                newFile = await file.SaveAs(_targetFilePath);
-            return Ok(newFile);
-        }
+        ///// <summary>
+        ///// 使用自定义的UserFile上传
+        ///// </summary>
+        ///// <param name="file">UserFile</param>
+        ///// <returns></returns>
+        //[HttpPost("file")]
+        //public async Task<IActionResult> UseFormAttributeUpload([FromForm] UserFile file)
+        //{
+        //    if (file == null || !file.IsValid)
+        //        return BadRequest("不允许上传的文件类型");
+        //    string newFile = string.Empty;
+        //    if (file != null)
+        //        newFile = await file.SaveAs(_targetFilePath);
+        //    return Ok(newFile);
+        //}
         #endregion
     }
 }
