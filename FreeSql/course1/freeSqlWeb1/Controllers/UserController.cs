@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using freeSqlWeb1.AutoMappers;
 using freeSqlWeb1.Domain;
+using freeSqlWeb1.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,11 +25,11 @@ namespace freeSqlWeb1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<User>> Get()
+        public ActionResult<IEnumerable<UserDto>> Get()
         {
-            List<User> blogs = _freesql.Select<User>().OrderByDescending(r => r.Name).ToList();
-
-            return blogs;
+            List<User> users = _freesql.Select<User>().OrderByDescending(r => r.Name).ToList();
+            var userDtoList = AutoMapperHelper.MapToList<User, UserDto>(users);
+            return userDtoList;
         }
 
         /// <summary>
@@ -37,7 +39,7 @@ namespace freeSqlWeb1.Controllers
         [HttpGet("allName")]
         public ActionResult<IEnumerable<string>> GetAllName()
         {
-            List<string> blogs = _freesql.Select<User>().OrderByDescending(r => r.Name).ToList(x=>x.Name);
+            List<string> blogs = _freesql.Select<User>().OrderByDescending(r => r.Name).ToList(x => x.Name);
 
             return blogs;
         }
@@ -45,11 +47,13 @@ namespace freeSqlWeb1.Controllers
         /// <summary>
         /// 添加用户
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="userDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AddUser([FromBody]User user)
+        public ActionResult AddUser([FromBody] UserDto userDto)
         {
+            var user = AutoMapperHelper.MapTo<UserDto,User>(userDto);
+            //user.CreateTime = DateTime.Now;
             var r = _freesql.Insert<User>(user).ExecuteIdentity();
             return Ok(r);
         }

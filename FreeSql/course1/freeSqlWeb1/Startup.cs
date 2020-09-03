@@ -1,5 +1,9 @@
+using AutoMapper;
 using FreeSql;
+using freeSqlWeb1.AutoMappers;
 using freeSqlWeb1.Configures;
+using freeSqlWeb1.Extensions;
+using freeSqlWeb1.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +22,7 @@ namespace freeSqlWeb1
     public class Startup
     {
         private readonly IWebHostEnvironment _env;
+        private readonly ILogger _log;
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             _env = env;
@@ -37,13 +42,14 @@ namespace freeSqlWeb1
                         .AddEventLog();
                 });
                 ILogger logger = loggerFactory.CreateLogger<Program>();
-                Fsql.Aop.CurdBefore = (s, e) =>
+                _log = logger;
+                Fsql.Aop.CurdAfter += (s, e) =>
                 {
                     logger.LogInformation(e.Sql);
                 };
-                Fsql.Aop.CurdAfter = (s, e) =>
+                Fsql.Aop.CurdAfter += (s, e) =>
                 {
-                    //logger.LogInformation(s.ToString());
+                    logger.LogInformation(s.ToString());
                 };
             }
         }
@@ -76,6 +82,14 @@ namespace freeSqlWeb1
             #endregion
             #region Controller config
             services.AddControllers().AddNewtonsoftJson(options => options.UseCamelCasing(true)).AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter()));
+            #endregion
+            #region Add some service
+            //services.AddScoped<IMessageService>
+            services.AddSingleton<ILogger>(_log);
+            services.AddMessage(builder => builder.UserEmail());
+            #endregion
+            #region AutoMapper
+            services.AddAutoMapper(builder=>builder.AddProfile(new AutoMapperConfig()));
             #endregion
         }
 
