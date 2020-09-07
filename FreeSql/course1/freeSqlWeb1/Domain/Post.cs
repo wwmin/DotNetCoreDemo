@@ -1,4 +1,5 @@
 ﻿using FreeSql.DataAnnotations;
+using freeSqlWeb1.Infrastructures;
 using System;
 
 namespace freeSqlWeb1.Domain
@@ -6,10 +7,8 @@ namespace freeSqlWeb1.Domain
     /// <summary>
     /// 发布内容
     /// </summary>
-    public class Post
+    public class Post : BaseEntity
     {
-        [Column(IsIdentity = true, IsPrimary = true)]
-        public int PostId { get; set; }
         /// <summary>
         /// 发布内容
         /// </summary>

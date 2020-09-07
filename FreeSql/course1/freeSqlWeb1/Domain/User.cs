@@ -1,4 +1,5 @@
 ﻿using FreeSql.DataAnnotations;
+using freeSqlWeb1.Infrastructures;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,13 +12,8 @@ namespace freeSqlWeb1.Domain
     /// <summary>
     /// 用户
     /// </summary>
-    public class User
+    public class User : BaseEntity
     {
-        /// <summary>
-        /// 用户guid
-        /// </summary>
-        [Column(IsIdentity = true, IsPrimary = true)]
-        public Guid Id { get; set; }
         /// <summary>
         /// 姓名
         /// </summary>
@@ -26,7 +22,7 @@ namespace freeSqlWeb1.Domain
         /// <summary>
         /// 生日
         /// </summary
-        public DateTimeOffset Birthday { get; set; }
+        public DateTime Birthday { get; set; }
         /// <summary>
         /// 性别
         /// </summary>

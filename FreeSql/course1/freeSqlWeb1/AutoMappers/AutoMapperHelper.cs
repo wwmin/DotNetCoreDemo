@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace freeSqlWeb1.AutoMappers
 {
+    /// <summary>
+    /// 此处的映射是在没有定义profile的情况下的一一映射
+    /// </summary>
     public static class AutoMapperHelper
     {
         /// <summary>

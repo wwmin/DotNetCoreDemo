@@ -1,15 +1,14 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
+using freeSqlWeb1.Infrastructures;
 
 namespace freeSqlWeb1.Domain
 {
     /// <summary>
     /// 博客内容
     /// </summary>
-    public class Blog
+    public class Blog : BaseEntity
     {
-        [Column(IsIdentity = true, IsPrimary = true)]
-        public int BlogId { get; set; }
         /// <summary>
         /// 标题
         /// </summary>

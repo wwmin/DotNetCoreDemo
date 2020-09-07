@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using freeSqlWeb1.Domain;
+using freeSqlWeb1.Infrastructures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +13,12 @@ namespace freeSqlWeb1.Controllers
     /// <summary>
     /// Blog
     /// </summary>
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BlogController : ControllerBase
+    public class BlogController : BaseController
     {
         // GET api/Blog
 
-        IFreeSql _fsql;
-        public BlogController(IFreeSql fsql)
+        public BlogController(IFreeSql freesql, IMapper mapper) : base(freesql, mapper)
         {
-            _fsql = fsql;
         }
 
         /// <summary>
@@ -30,7 +28,7 @@ namespace freeSqlWeb1.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Blog>> Get()
         {
-            List<Blog> blogs = _fsql.Select<Blog>().OrderByDescending(r => r.CreateTime).ToList();
+            List<Blog> blogs = _freesql.Select<Blog>().OrderByDescending(r => r.CreateTime).ToList();
 
             return blogs;
         }
@@ -42,7 +40,7 @@ namespace freeSqlWeb1.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            List<Blog> blogs = await _fsql.Select<Blog>().ToListAsync();
+            List<Blog> blogs = await _freesql.Select<Blog>().ToListAsync();
             return Ok(blogs);
         }
 
@@ -50,13 +48,13 @@ namespace freeSqlWeb1.Controllers
         [HttpGet("{id}")]
         public ActionResult<Blog> Get(int id)
         {
-            return _fsql.Select<Blog>(id).ToOne();
+            return _freesql.Select<Blog>(id).ToOne();
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Blog input)
         {
-            var i = await _fsql.Insert<Blog>(input).ExecuteIdentityAsync();
+            var i = await _freesql.Insert<Blog>(input).ExecuteIdentityAsync();
             return Ok(i);
         }
 
@@ -65,7 +63,7 @@ namespace freeSqlWeb1.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _fsql.Delete<Blog>(new { BlogId = id }).ExecuteAffrows();
+            _freesql.Delete<Blog>(new { BlogId = id }).ExecuteAffrows();
         }
     }
 }

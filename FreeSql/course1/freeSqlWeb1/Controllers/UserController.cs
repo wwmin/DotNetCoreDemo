@@ -2,33 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using freeSqlWeb1.AutoMappers;
 using freeSqlWeb1.Domain;
 using freeSqlWeb1.DTO;
+using freeSqlWeb1.Infrastructures;
+using freeSqlWeb1.Infrastructures.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 namespace freeSqlWeb1.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
-    {
-        private readonly IFreeSql _freesql;
-        public UserController(IFreeSql freesql)
-        {
-            _freesql = freesql;
-        }
 
+    public class UserController : BaseController
+    {
+        public UserController(IFreeSql freesql, IMapper mapper) : base(sql: freesql, mapper: mapper)
+        {
+        }
         /// <summary>
         /// 查询所有user
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<UserDto>> Get()
+        [ProducesResponseType(typeof(List<UserDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<UserDto>>> Get()
         {
+
+            string us = await RedisUtil.StringGetAsync("users");
+            if (us == null)
+            {
+                await RedisUtil.StringSetAsync("users", "users");
+            }
+            
             List<User> users = _freesql.Select<User>().OrderByDescending(r => r.Name).ToList();
-            var userDtoList = AutoMapperHelper.MapToList<User, UserDto>(users);
+            var userDtoList = _mapper.Map<List<User>, List<UserDto>>(users);
             return userDtoList;
         }
 
@@ -37,11 +46,12 @@ namespace freeSqlWeb1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("allName")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<string>> GetAllName()
         {
-            List<string> blogs = _freesql.Select<User>().OrderByDescending(r => r.Name).ToList(x => x.Name);
+            List<string> users = _freesql.Select<User>().OrderByDescending(r => r.Name).ToList(x => x.Name);
 
-            return blogs;
+            return users;
         }
 
         /// <summary>
@@ -52,8 +62,8 @@ namespace freeSqlWeb1.Controllers
         [HttpPost]
         public ActionResult AddUser([FromBody] UserDto userDto)
         {
-            var user = AutoMapperHelper.MapTo<UserDto,User>(userDto);
-            //user.CreateTime = DateTime.Now;
+            //var user = AutoMapperHelper.MapTo<UserDto,User>(userDto);
+            var user = _mapper.Map<UserDto, User>(userDto);
             var r = _freesql.Insert<User>(user).ExecuteIdentity();
             return Ok(r);
         }

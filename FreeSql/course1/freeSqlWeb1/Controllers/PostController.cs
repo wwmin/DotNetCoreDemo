@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using freeSqlWeb1.Domain;
+using freeSqlWeb1.Infrastructures;
 using freeSqlWeb1.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,15 +14,11 @@ namespace freeSqlWeb1.Controllers
     /// <summary>
     /// 文章发布
     /// </summary>
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PostController : ControllerBase
+    public class PostController : BaseController
     {
-        IFreeSql _fsql;
-        IMessageService _message;
-        public PostController(IFreeSql fsql, IMessageService message)
+        private readonly IMessageService _message;
+        public PostController(IFreeSql freesql, IMapper mapper, IMessageService message) : base(freesql, mapper)
         {
-            _fsql = fsql;
             _message = message;
         }
 
@@ -33,7 +31,7 @@ namespace freeSqlWeb1.Controllers
         public Post Get(int id)
         {
             _message.Send(id.ToString());
-            Post post = _fsql.Select<Post>().Where(p => p.PostId == id).Include(p => p.Blog).OrderByDescending(r => r.ReplyTime).ToOne();
+            Post post = _freesql.Select<Post>().Where(p => p.Id == id).Include(p => p.Blog).OrderByDescending(r => r.ReplyTime).ToOne();
 
             return post;
         }
@@ -46,7 +44,7 @@ namespace freeSqlWeb1.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Post input)
         {
-            var i = await _fsql.Insert<Post>(input).ExecuteIdentityAsync();
+            var i = await _freesql.Insert<Post>(input).ExecuteIdentityAsync();
             return Ok(i);
         }
     }

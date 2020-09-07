@@ -12,6 +12,14 @@ namespace freeSqlWeb1.DTO
         /// name
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// 性别
+        /// </summary>
         public Gender Gender { get; set; }
+
+        /// <summary>
+        /// age
+        /// </summary>
+        public int Age { get; set; }
     }
 }
