@@ -6,27 +6,29 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debugger\netcoreapp3.1\freeSqlWeb1.xml</DocumentationFile>
-    <OutputPath>bin\Debug\netcoreapp3.1\</OutputPath>
+    <OutputPath>bin\Debugger\netcoreapp3.1\</OutputPath>
     <NoWarn>1701;1702;1591;1570</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
-    <PackageReference Include="AutoMapper" Version="10.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
-    <PackageReference Include="FreeSql" Version="1.8.1" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="1.8.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.7" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="FreeSql" Version="1.10.1" />
+    <PackageReference Include="FreeSql.Provider.MySql" Version="1.10.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
-    <PackageReference Include="swashbuckle.aspnetcore" Version="5.5.1" />
+    <PackageReference Include="swashbuckle.aspnetcore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Infrastructures\Constants\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 
 </Project>

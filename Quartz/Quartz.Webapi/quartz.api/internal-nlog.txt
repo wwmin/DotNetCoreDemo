@@ -1,0 +1,16 @@
+2020-10-19 12:58:20.3742 Info Message Template Auto Format enabled
+2020-10-19 12:58:20.3742 Info Loading assembly: NLog.MailKit
+2020-10-19 12:58:20.3742 Info Loading assembly: NLog.Targets.ElasticSearch
+2020-10-19 12:58:20.4341 Error Error parsing layout elapse will be ignored. Exception: System.ArgumentException: LayoutRenderer cannot be found: 'elapse'
+   at NLog.Config.Factory`2.CreateInstance(String itemName)
+   at NLog.Layouts.LayoutParser.GetLayoutRenderer(ConfigurationItemFactory configurationItemFactory, String name, Nullable`1 throwConfigExceptions)
+2020-10-19 12:58:20.5097 Info Adding target FileTarget(Name=all)
+2020-10-19 12:58:20.5097 Info Adding target FileTarget(Name=debug)
+2020-10-19 12:58:20.5129 Info Adding target FileTarget(Name=info)
+2020-10-19 12:58:20.5129 Info Adding target FileTarget(Name=warn)
+2020-10-19 12:58:20.5129 Info Adding target FileTarget(Name=error)
+2020-10-19 12:58:20.5129 Info Adding target FileTarget(Name=schedule)
+2020-10-19 12:58:20.5419 Info Validating config: Targets=5, ConfigItems=123, FilePath=D:\work\demo\DotNetCoreDemo\Quartz\Quartz.Webapi\quartz.api\bin\Debug\netcoreapp3.1\NLog.config
+2020-10-19 12:58:20.5525 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: debug
+2020-10-19 12:58:20.5699 Info Configuration initialized.
+2020-10-19 12:58:20.5699 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.5.12092. Product version: 4.7.5+ed343d5690d9c97a96fcff430e240e2d7c31a8d7. GlobalAssemblyCache: False

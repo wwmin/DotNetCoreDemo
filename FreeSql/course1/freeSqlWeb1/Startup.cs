@@ -5,6 +5,7 @@ using freeSqlWeb1.AutoMappers;
 using freeSqlWeb1.Configures;
 using freeSqlWeb1.Extensions;
 using freeSqlWeb1.Infrastructures;
+using freeSqlWeb1.Infrastructures.MiddleWares;
 using freeSqlWeb1.Infrastructures.SettingModels;
 using freeSqlWeb1.Infrastructures.SettingOptions;
 using freeSqlWeb1.Infrastructures.Utils;
@@ -182,7 +183,7 @@ namespace freeSqlWeb1
 
             var ms = Helpers.GetModels<BaseEntity>();
             //app.UseHttpsRedirection();
-
+            app.UseMiddleware<RequestMiddleware>();
             app.UseSwaggerUI();
 
             app.UseRouting();
